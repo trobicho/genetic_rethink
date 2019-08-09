@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 18:10:19 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/09 18:43:52 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/09 21:24:18 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ typedef struct	s_pos
 	int	x, y;
 }				t_pos;
 
+using namespace std;
+
 class	Test_simple: public Learning_net_environment
 {
 	public:
@@ -26,11 +28,12 @@ class	Test_simple: public Learning_net_environment
 		~Test_simple(){};
 
 	private:
-		int		do_evalutation(People_net &people, int generation);
-		int		do_evalutation(People_net &people);
-		int		do_get_nb_output(void);
-		int		do_get_nb_input(void);
+		int	do_evalutation(People_net &people, int generation);
+		int	do_evalutation(People_net &people);
+		int	do_get_nb_output(void);
+		int	do_get_nb_input(void);
 
-		int		m_max;
-		t_pos	pos;
+		int				m_max;
+		t_pos			pos;
+		vector<double>	m_sensor;
 }

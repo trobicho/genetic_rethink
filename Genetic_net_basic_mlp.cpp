@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   People.h                                           :+:      :+:    :+:   */
+/*   Genetic_net_basic_mlp.cpp                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/09 15:22:09 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/09 21:19:42 by trobicho         ###   ########.fr       */
+/*   Created: 2019/08/10 00:52:37 by trobicho          #+#    #+#             */
+/*   Updated: 2019/08/10 01:01:41 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#include "Genetic_net_basic_mlp.h"
 
-template <typename T>
-class	People
+int		Genetic_net_basic_mlp::do_get_generation(void)
 {
-	public:
-		People(){};
-		void	set_score(int score);
-		int		get_score(void);
-		T		get_gene(void);
+	return (m_generation);
+}
+int		Genetic_net_basic_mlp::do_get_best_score(void)
+{
+	return (m_people[0].get_score());
+}
 
-	private:
-		virtual	void	do_set_score(int score) = 0;
-		virtual int		do_get_score(void) = 0;
-		virtual	T		do_get_gene(void) = 0;
+void	Genetic_net_basic_mlp::do_next_gen(void)
+{
 }

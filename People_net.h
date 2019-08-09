@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 15:30:03 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/09 18:33:51 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/10 00:59:26 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@ class	People_net
 {
 	public:
 		People_net(){};
-		void					set_score(double score);
-		double					get_score(void);
+		void					set_score(int score);
+		int						get_score(void);
 		const vector<double>&	calc_output(const vector<double> &input);
 
 
 	private:
-		virtual void	do_set_score(double score) = 0;
-		virtual double	do_get_score(void) = 0;
+		virtual void	do_set_score(int score) = 0;
+		virtual int		do_get_score(void) = 0;
+		virtual const vector<double>&
+						do_calc_output(const vector<double> &input) = 0;
 }

@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   People.h                                           :+:      :+:    :+:   */
+/*   Learning_environment_net.cpp                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/09 15:22:09 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/09 21:19:42 by trobicho         ###   ########.fr       */
+/*   Created: 2019/08/10 01:05:34 by trobicho          #+#    #+#             */
+/*   Updated: 2019/08/10 01:10:00 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#include "Learning_environment_net.h"
 
-template <typename T>
-class	People
+int	Learning_environment_net::evaluate(People_net &people, int generation = -1)
 {
-	public:
-		People(){};
-		void	set_score(int score);
-		int		get_score(void);
-		T		get_gene(void);
+	return (do_evalutation(people, generation));
+}
 
-	private:
-		virtual	void	do_set_score(int score) = 0;
-		virtual int		do_get_score(void) = 0;
-		virtual	T		do_get_gene(void) = 0;
+int	Learning_environment_net::get_nb_input(void)
+{
+	return (do_get_nb_intput());
+}
+
+int	Learning_environment_net::get_nb_output(void)
+{
+	return (do_get_nb_output());
 }

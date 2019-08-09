@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Learning_environment.h                             :+:      :+:    :+:   */
+/*   People_net.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/07 14:50:45 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/10 01:08:59 by trobicho         ###   ########.fr       */
+/*   Created: 2019/08/10 00:59:30 by trobicho          #+#    #+#             */
+/*   Updated: 2019/08/10 01:01:30 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#include "People_net.h"
 
-class	Learning_environment
+void					set_score(int score);
 {
-	public:
-		int	evaluate(People &people, int generation = -1);
+	do_set_score(score);
+}
 
-	private:
-		virtual int	do_evalutation(People &people, int generation) = 0;
+int						get_score(void);
+{
+	return (do_get_score());
+}
+
+const vector<double>&	calc_output(const vector<double> &input);
+{
+	return (do_calc_output(input));
 }

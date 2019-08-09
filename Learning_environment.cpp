@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Learning_environment.h                             :+:      :+:    :+:   */
+/*   Learning_environment.cpp                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/07 14:50:45 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/10 01:08:59 by trobicho         ###   ########.fr       */
+/*   Created: 2019/08/10 01:03:50 by trobicho          #+#    #+#             */
+/*   Updated: 2019/08/10 01:08:53 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#include "Learning_environment.h"
 
-class	Learning_environment
+int	Learning_environment::evaluate(People &people, int generation)
 {
-	public:
-		int	evaluate(People &people, int generation = -1);
-
-	private:
-		virtual int	do_evalutation(People &people, int generation) = 0;
+	return (do_evalutation(people, generation));
 }

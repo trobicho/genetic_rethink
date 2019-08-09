@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Learning_environment.h                             :+:      :+:    :+:   */
+/*   Genetic.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/07 14:50:45 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/10 01:08:59 by trobicho         ###   ########.fr       */
+/*   Created: 2019/08/10 00:49:48 by trobicho          #+#    #+#             */
+/*   Updated: 2019/08/10 01:01:55 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#include "Genetic.h"
 
-class	Learning_environment
+int		Genetic::get_generation(void)
 {
-	public:
-		int	evaluate(People &people, int generation = -1);
+	return (do_get_generation());
+}
 
-	private:
-		virtual int	do_evalutation(People &people, int generation) = 0;
+int		Genetic::get_best_score(void)
+{
+	return (do_get_best_score());
+}
+
+void	Genetic::next_gen(void)
+{
+	next_gen();
 }

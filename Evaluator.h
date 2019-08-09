@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Learning_environment.h                             :+:      :+:    :+:   */
+/*   Evaluator.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/07 14:50:45 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/10 01:08:59 by trobicho         ###   ########.fr       */
+/*   Created: 2019/08/09 21:27:33 by trobicho          #+#    #+#             */
+/*   Updated: 2019/08/09 21:28:56 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-class	Learning_environment
+using namespace std;
+
+template <typename T>
+class	Evaluator
 {
 	public:
-		int	evaluate(People &people, int generation = -1);
-
-	private:
-		virtual int	do_evalutation(People &people, int generation) = 0;
+		Evaluator(){};
 }
