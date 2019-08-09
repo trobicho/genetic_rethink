@@ -6,9 +6,11 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/07 14:50:45 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/07 15:13:59 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/09 18:33:58 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#pragma once
 
 class	Learning_environment
 {

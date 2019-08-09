@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Genetic.h                                          :+:      :+:    :+:   */
+/*   People_net.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/06 15:20:05 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/09 18:33:31 by trobicho         ###   ########.fr       */
+/*   Created: 2019/08/09 15:30:03 by trobicho          #+#    #+#             */
+/*   Updated: 2019/08/09 18:33:51 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-class	Genetic
+using namespace std;
+
+class	People_net
 {
 	public:
-		Genetic(){};
-		int		get_generation(void);
-		double	get_best_score(void);
-		void	next_gen(void);
-	
+		People_net(){};
+		void					set_score(double score);
+		double					get_score(void);
+		const vector<double>&	calc_output(const vector<double> &input);
+
+
 	private:
-		virtual int		do_get_generation(void) = 0;
-		virtual double	do_get_best_score(void) = 0;
-		virtual void	do_next_gen(void) = 0;
+		virtual void	do_set_score(double score) = 0;
+		virtual double	do_get_score(void) = 0;
 }

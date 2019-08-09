@@ -1,21 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Genetic_net.h                                      :+:      :+:    :+:   */
+/*   Test.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/07 14:18:04 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/09 18:33:40 by trobicho         ###   ########.fr       */
+/*   Created: 2019/08/09 18:08:39 by trobicho          #+#    #+#             */
+/*   Updated: 2019/08/09 18:09:48 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
 
-#include "Genetic.h"
-
-class	Genetic_net: public Genetic
-{
-	public:
-		Genetic_net();
-}

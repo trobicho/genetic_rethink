@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Genetic_net.h                                      :+:      :+:    :+:   */
+/*   main_test_simple.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/07 14:18:04 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/09 18:33:40 by trobicho         ###   ########.fr       */
+/*   Created: 2019/08/09 18:29:33 by trobicho          #+#    #+#             */
+/*   Updated: 2019/08/09 18:43:57 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#include "libgen.h"
 
-#include "Genetic.h"
-
-class	Genetic_net: public Genetic
+int	main(int ac, char **av)
 {
-	public:
-		Genetic_net();
+	return (0);
 }
