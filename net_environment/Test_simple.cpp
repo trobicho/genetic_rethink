@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 18:10:18 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/10 01:20:48 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/10 01:22:20 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,5 @@ int	Test_simple::do_get_nb_output(void)
 
 int	Test_simple::do_get_nb_input(void)
 {
-	return (3);
+	return (2);
 }
