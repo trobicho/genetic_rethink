@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 00:49:48 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/10 01:01:55 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/10 13:45:09 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ int		Genetic::get_best_score(void)
 
 void	Genetic::next_gen(void)
 {
-	next_gen();
+	do_next_gen();
 }

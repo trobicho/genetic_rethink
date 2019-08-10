@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 18:10:19 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/09 21:24:18 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/10 14:04:16 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,4 @@ class	Test_simple: public Learning_net_environment
 		int				m_max;
 		t_pos			pos;
 		vector<double>	m_sensor;
-}
+};

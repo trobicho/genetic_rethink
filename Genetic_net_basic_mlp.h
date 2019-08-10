@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/07 17:03:10 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/10 00:52:15 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/10 14:04:16 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,4 @@ class	Genetic_net_basic_mlp: private Genetic
 
 		vector<People_basic_mlp>	m_people;
 		int							m_generation;
-}
+};
