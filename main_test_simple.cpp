@@ -6,11 +6,13 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 18:29:33 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/10 14:28:24 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/10 19:41:26 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libgen.h"
+#include "Test_simple.h"
+#include <iostream>
 
 int	main(int ac, char **av)
 {
@@ -21,7 +23,7 @@ int	main(int ac, char **av)
 	{
 		genetic.next_gen();
 		std::cout << "gen(%d)", g;
-		std::cout << " best score = " << genetic.get_best_score() << std:endl;
+		std::cout << " best score = " << genetic.get_best_score() << std::endl;
 	}
 	return (0);
 }
