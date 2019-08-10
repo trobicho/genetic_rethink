@@ -6,11 +6,13 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 15:30:03 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/10 14:04:16 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/10 15:42:46 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+
+#include <vector>
 
 using namespace std;
 
