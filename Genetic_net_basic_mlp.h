@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/07 17:03:10 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/10 19:43:07 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/11 17:35:46 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ class	Genetic_net_basic_mlp: public Genetic
 		void	do_next_gen(void);
 
 		vector<People_basic_mlp>	m_people;
-		int							m_generation = 0;
+		int							m_generation = 1;
+		Learning_environment_net	&m_env; //Temp have to be replace with a evaluator
 };

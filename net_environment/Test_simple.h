@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 18:10:19 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/10 19:49:04 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/11 17:07:04 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ class	Test_simple: public Learning_environment_net
 
 	private:
 		int	do_evalutation(People_net &people, int generation);
-		int	do_evalutation(People_net &people);
 		int	do_get_nb_output(void);
 		int	do_get_nb_input(void);
 

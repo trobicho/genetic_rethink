@@ -6,7 +6,7 @@
 #    By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/10 14:28:55 by trobicho          #+#    #+#              #
-#    Updated: 2019/08/10 20:15:36 by trobicho         ###   ########.fr        #
+#    Updated: 2019/08/11 20:36:09 by trobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ TEST_HDRS	=	Genetic_net_basic_mlp.h \
 all: $(NAME)
 
 test: $(NAME) $(TEST_SRCS) Makefile
-	$(CC) $(CXXFLAGS) -I./ -I./net_environment/ $(TEST_SRCS) $(NAME) -o $(TEST_NAME)
+	$(CC) $(CXXFLAGS) -I./ -I./net_environment/ -I../neuralNet $(TEST_SRCS) $(NAME) -o $(TEST_NAME) -L../neuralNet -lneuralNet
 
 #********************************************#
 #                                            #

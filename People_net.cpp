@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 00:59:30 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/10 20:11:01 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/11 20:41:25 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void					People_net::set_score(int score)
 	do_set_score(score);
 }
 
-int						People_net::get_score(void)
+int						People_net::get_score(void) const
 {
 	return (do_get_score());
 }

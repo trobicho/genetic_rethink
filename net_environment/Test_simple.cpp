@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 18:10:18 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/10 19:50:40 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/11 17:40:51 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	Test_simple::do_evalutation(People_net &people, int generation)
 		if (m_pos.x < 0 || m_pos.x >= m_max || m_pos.y < 0 || m_pos.y >= m_max)
 			break;
 	}
+	people.set_score(step);
 	return (step);
 }
 
