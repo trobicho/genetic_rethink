@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 13:56:36 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/12 19:55:56 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/12 20:50:55 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ People_basic_mlp::People_basic_mlp(int nb_input, int nb_output):
 	NeuralNet(nb_input, nb_output)
 {
 
-	addLayerFront(Layer(3));
+	addLayerFront(Layer(4));
 	init();
 	m_nb_total_neuron = 0;
 	std::list<Layer>::iterator it=m_layer.begin();

@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 18:10:18 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/12 20:06:10 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/12 20:22:30 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int	Test_simple::eval_and_display(People_net &people, int generation)
 	{
 		if (i > 0 && i % m_max == 0)
 			std::cout << std::endl;
-		if (m_grid[i] < 10)
+		if (m_grid[i] == 0)
+			std::cout << ". ";
+		else if (m_grid[i] < 10)
 			std::cout << m_grid[i] << " ";
 		else
 			std::cout << "x ";
@@ -45,6 +47,9 @@ int	Test_simple::do_evalutation(People_net &people, int generation)
 	}
 	m_pos.x = m_max / 2;
 	m_pos.y = m_max / 2;
+	if (m_grid[m_pos.x + m_pos.y * m_max] == 0)
+		score += 2;
+	m_grid[m_pos.x + m_pos.y * m_max] += 1;
 	r = 0;
 	for (step = 0; step < m_max * m_max + m_max * 2; step++)
 	{
