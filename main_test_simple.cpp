@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 18:29:33 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/12 04:16:21 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/12 14:12:54 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int ac, char **av)
 	for (int g = 0; g < 1000; g++)
 	{
 		genetic.next_gen();
-		if (best_score_total < genetic.get_best_score())
+		if (best_score_total <= genetic.get_best_score())
 		{
 			best_score_total = genetic.get_best_score();
 			gen_best_total = g;
