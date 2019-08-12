@@ -6,17 +6,20 @@
 #    By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/10 14:28:55 by trobicho          #+#    #+#              #
-#    Updated: 2019/08/11 20:36:09 by trobicho         ###   ########.fr        #
+#    Updated: 2019/08/12 04:09:36 by trobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC 			=	g++
-CXXFLAGS	=	-std=c++14 -Wall -Wextra
+CXXFLAGS	=	-std=c++14 #-Wall -Wextra
 NAME		=	libgen.a
 
 SRCS_PATH	=	./
 HDRS_PATH	=	./
 OBJS_PATH	=	./obj
+
+INCS_FLAGS	=	-I../my_lib
+LIBS_FLAGS	=	-L../my_lib -ltrl
 
 SRCS_NAME	=	Genetic.cpp \
 				People_net.cpp \
@@ -49,10 +52,13 @@ TEST_HDRS	=	Genetic_net_basic_mlp.h \
 				People_basic_mlp.h \
 				./net_environment/Test_simple.h
 
+TEST_INCS_FLAGS	= $(INCS_FLAGS) -I./ -I../neuralNet -I./net_environment
+TEST_LIBS_FLAGS	= $(LIBS_FLAGS) -L../neuralNet -lneuralNet
+
 all: $(NAME)
 
 test: $(NAME) $(TEST_SRCS) Makefile
-	$(CC) $(CXXFLAGS) -I./ -I./net_environment/ -I../neuralNet $(TEST_SRCS) $(NAME) -o $(TEST_NAME) -L../neuralNet -lneuralNet
+	$(CC) $(CXXFLAGS) $(TEST_INCS_FLAGS) $(TEST_SRCS) $(NAME) -o $(TEST_NAME) $(TEST_LIBS_FLAGS)
 
 #********************************************#
 #                                            #
