@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 00:52:37 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/12 04:00:05 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/12 19:52:32 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,63 @@ void	Genetic_net_basic_mlp::do_next_gen(void)
 	m_generation++;
 }
 
+int		Genetic_net_basic_mlp::kill_one_people(int n)
+{
+	auto	temp = m_people[0];
+
+	if (m_cur_people_alive > 1 && n < m_cur_people_alive)
+	{
+		if (n != m_cur_people_alive - 1)
+		{
+			temp = m_people[n];
+			m_people[n] = m_people[m_cur_people_alive - 1];
+			m_people[m_cur_people_alive - 1] = temp;
+		}
+		m_cur_people_alive--;
+		return (1);
+	}
+	return (0);
+}
+
+int		Genetic_net_basic_mlp::sigma_kill(int nb)
+{
+	int	nb_kill;
+
+	nb_kill = 0;
+	for (int i = 0; i < nb; i++)
+	{
+		int n = trl::wheel_sigma(m_cur_people_alive) - 1;
+		nb_kill += kill_one_people(n);
+		//std::cout << n << " ";
+	}
+	//std::cout << std::endl;
+	return (nb_kill);
+}
+
 void	Genetic_net_basic_mlp::apply_evolving_rules(void)
 {
+	int		nb_kill;
 	auto&	mt = trl::req_mt_ref();
-	auto	cur_people_alive = m_people.size();
 	std::uniform_real_distribution<double>
 			dis(0.0, 1.0);
 
-
+	m_cur_people_alive = m_people.size();
 	std::sort(m_people.rbegin(), m_people.rend());
-	for (auto i = 0; i < cur_people_alive; i++)
+	nb_kill = sigma_kill(m_cur_people_alive / 2);
+	for (auto i = 0; nb_kill > 0; i++)
 	{
+		if (i >= m_cur_people_alive)
+			i = 0;
 		if (dis(mt) < m_mutate_prob)
-			m_people[i].mutate();
+		{
+			m_people[m_cur_people_alive + (nb_kill - 1)].copy_weight_same_net(m_people[i]);
+			m_people[m_cur_people_alive + (nb_kill - 1)].mutate();
+			m_people[m_cur_people_alive + (nb_kill - 1)].mutate();
+			m_people[m_cur_people_alive + (nb_kill - 1)].mutate();
+			m_people[m_cur_people_alive + (nb_kill - 1)].mutate();
+			m_people[m_cur_people_alive + (nb_kill - 1)].mutate();
+			nb_kill--;
+		}
 	}
+	m_cur_people_alive = m_people.size();
 }

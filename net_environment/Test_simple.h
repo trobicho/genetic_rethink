@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 18:10:19 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/11 17:07:04 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/12 19:11:31 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ class	Test_simple: public Learning_environment_net
 	public:
 		Test_simple(int max = 25);
 		~Test_simple(){};
+		int	eval_and_display(People_net &people, int generation);
 
 	private:
 		int	do_evalutation(People_net &people, int generation);
@@ -36,4 +37,5 @@ class	Test_simple: public Learning_environment_net
 		int				m_max;
 		t_pos			m_pos;
 		vector<double>	m_sensor;
+		vector<int>		m_grid;
 };

@@ -6,20 +6,20 @@
 #    By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/10 14:28:55 by trobicho          #+#    #+#              #
-#    Updated: 2019/08/12 04:09:36 by trobicho         ###   ########.fr        #
+#    Updated: 2019/08/12 17:29:04 by trobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC 			=	g++
-CXXFLAGS	=	-std=c++14 #-Wall -Wextra
+CXXFLAGS	=	-std=c++14 -g #-Wall -Wextra
 NAME		=	libgen.a
 
 SRCS_PATH	=	./
 HDRS_PATH	=	./
 OBJS_PATH	=	./obj
 
-INCS_FLAGS	=	-I../my_lib
-LIBS_FLAGS	=	-L../my_lib -ltrl
+INCS_FLAGS	=	-I../my_lib_cpp
+LIBS_FLAGS	=	-L../my_lib_cpp -ltrl
 
 SRCS_NAME	=	Genetic.cpp \
 				People_net.cpp \

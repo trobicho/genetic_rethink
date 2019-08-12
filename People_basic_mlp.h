@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 13:56:34 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/12 03:18:00 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/12 17:27:29 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ class	People_basic_mlp: public People_net, private NeuralNet
 	public:
 		People_basic_mlp(int nb_input, int nb_output);
 		void	mutate();
+		void	copy_weight_same_net(People_basic_mlp &people);
 
 	private:
 		void					do_set_score(int score);
