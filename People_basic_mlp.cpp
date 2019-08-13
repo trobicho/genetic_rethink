@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 13:56:36 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/12 20:50:55 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/13 06:51:45 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ People_basic_mlp::People_basic_mlp(int nb_input, int nb_output):
 	NeuralNet(nb_input, nb_output)
 {
 
-	addLayerFront(Layer(4));
 	init();
 	m_nb_total_neuron = 0;
 	std::list<Layer>::iterator it=m_layer.begin();
@@ -86,10 +85,51 @@ s_neuron&	People_basic_mlp::get_neuron_n_ref(int n)
 
 void		People_basic_mlp::mutate(void)
 {
+	int			dice = trl::rand_uniform_int(0, 1);
+
+	if (dice == 0)
+	{
+		mutate_swap_same_layer();
+	}
+	else
+	{
+		mutate_add();
+		mutate_add();
+		mutate_add();
+	}
+}
+
+void		People_basic_mlp::mutate_swap_same_layer(void)
+{
+	int			n;
+	Layer&		layer = getLayer(trl::rand_uniform_int(0, m_nbLayer - 1));
+
+	n = trl::rand_uniform_int(0, layer.get_nbNeuron() - 1);
+	s_neuron	&neuron_a = layer.get_neuron_at_n(n);
+	n = trl::rand_uniform_int(0, layer.get_nbNeuron() - 2);
+	s_neuron	&neuron_b = layer.get_neuron_at_n(n);
+	std::vector<double> tmp = neuron_a.weight;
+	neuron_a = neuron_b;
+	neuron_b.weight = tmp;
+}
+
+void		People_basic_mlp::mutate_mul(void)
+{
 	int			neuron_index = trl::rand_uniform_int(0, m_nb_total_neuron - 1);
 	s_neuron	&neuron = get_neuron_n_ref(neuron_index);
 	int			neuron_weight_index;
 
 	neuron_weight_index = trl::rand_uniform_int(0, neuron.weight.size() - 1);
-	neuron.weight[neuron_weight_index] += trl::rand_uniform_double(-1.0, 1.0);
+	neuron.weight[neuron_weight_index] *= trl::rand_uniform_double(0.75, 1.5);
 }
+
+void		People_basic_mlp::mutate_add(void)
+{
+	int			neuron_index = trl::rand_uniform_int(0, m_nb_total_neuron - 1);
+	s_neuron	&neuron = get_neuron_n_ref(neuron_index);
+	int			neuron_weight_index;
+
+	neuron_weight_index = trl::rand_uniform_int(0, neuron.weight.size() - 1);
+	neuron.weight[neuron_weight_index] += trl::rand_uniform_double(-1., 1.);
+}
+

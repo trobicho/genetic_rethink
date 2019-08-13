@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 13:56:34 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/12 17:27:29 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/13 06:02:50 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ class	People_basic_mlp: public People_net, private NeuralNet
 		int						do_get_answer(void);
 		const vector<double>&	do_calc_output(const vector<double> &input);
 		s_neuron&				get_neuron_n_ref(int n);
+		void					mutate_swap_same_layer(void);
+		void					mutate_mul(void);
+		void					mutate_add(void);
 
 		int	m_score = 0;
 		int	m_nb_total_neuron;

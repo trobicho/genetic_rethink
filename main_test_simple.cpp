@@ -6,17 +6,17 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 18:29:33 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/12 20:18:25 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/13 05:49:51 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libgen.h"
-#include "Test_simple.h"
+#include "Snake_copy_test.h"
 #include <iostream>
 
 int	main(int ac, char **av)
 {
-	Test_simple				test_learning(25);
+	Snake					test_learning(45, 45);
 	Genetic_net_basic_mlp	genetic(test_learning, 100);
 	int						best_score_total = 0;
 	int						gen_best_total = 0;
@@ -28,16 +28,14 @@ int	main(int ac, char **av)
 		{
 			best_score_total = genetic.get_best_score();
 			gen_best_total = g;
+			test_learning.eval_and_display(genetic.get_best_ref(), g);
 			std::cout << "gen(" << g << ")";
 			std::cout << " best score = " << genetic.get_best_score() << std::endl;
-			test_learning.eval_and_display(genetic.get_best_ref(), g);
+			std::cout << "--------------------------------------------------------------------------------------------------------------------"
+				<< std::endl << std::endl;
 		}
 		else if (g > 0 && g % 1000 == 0)
 			std::cout << "gen(" << g << ")" << std::endl;
-		/*
-		std::cout << "gen(" << g << ")";
-		std::cout << " best score = " << genetic.get_best_score() << std::endl;
-		*/
 	}
 	return (0);
 }

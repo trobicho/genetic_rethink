@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 18:10:18 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/12 20:22:30 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/12 23:56:30 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ Test_simple::Test_simple(int max): m_max(max)
 	m_grid.resize(m_max * m_max, 0);
 }
 
-int	Test_simple::eval_and_display(People_net &people, int generation)
+int		Test_simple::eval_and_display(People_net &people, int generation)
 {
 	do_evalutation(people, generation);
 	for (int i = 0; i < m_max * m_max; i++)
@@ -55,7 +55,10 @@ int	Test_simple::do_evalutation(People_net &people, int generation)
 	{
 		m_sensor[0] = (double)m_pos.x / (double)m_max;
 		m_sensor[1] = (double)m_pos.y / (double)m_max;
-		m_sensor[2] = (double)step / (double)(m_max * m_max);
+		if (m_extra_sensor)
+			extra_sensor_update();
+		else
+			m_sensor[2] = (double)step / (double)(m_max * m_max);
 		people.calc_output(m_sensor);
 		r = people.get_answer();
 		switch (r)
@@ -85,12 +88,45 @@ int	Test_simple::do_evalutation(People_net &people, int generation)
 	return (score);
 }
 
-int	Test_simple::do_get_nb_output(void)
+void	Test_simple::extra_sensor_update(void)
+{
+	int x, y;
+
+	for (x = m_pos.x + 1, y = m_pos.y; x < m_max; x++)
+	{
+		if (m_grid[x + y * m_max] > 0)
+			break;
+	}
+	m_sensor[2] = (x - m_pos.x);
+	for (x = m_pos.x, y = m_pos.y + 1; y < m_max; y++)
+	{
+		if (m_grid[x + y * m_max] > 0)
+			break;
+	}
+	m_sensor[3] = (y - m_pos.y);
+	for (x = m_pos.x - 1, y = m_pos.y; x >= 0; x--)
+	{
+		if (m_grid[x + y * m_max] > 0)
+			break;
+	}
+	m_sensor[4] = (m_pos.x - x);
+	for (x = m_pos.x, y = m_pos.y - 1; y >= 0; y--)
+	{
+		if (m_grid[x + y * m_max] > 0)
+			break;
+	}
+	m_sensor[5] = (m_pos.y - y);
+}
+
+int		Test_simple::do_get_nb_output(void)
 {
 	return (4);
 }
 
-int	Test_simple::do_get_nb_input(void)
+int		Test_simple::do_get_nb_input(void)
 {
-	return (3);
+	if (m_extra_sensor)
+		return (6);
+	else
+		return (3);
 }

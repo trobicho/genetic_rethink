@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/07 14:55:21 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/10 20:12:48 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/13 04:49:55 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class	Learning_environment_net
 		int	get_nb_input(void);
 
 	private:
-		virtual int do_evalutation(People_net &people, int generation) = 0;
+		virtual int do_evalutation(People_net &people, int generation) = 0; //const People
 		virtual int	do_get_nb_input(void) = 0;
 		virtual int	do_get_nb_output(void) = 0;
 };
