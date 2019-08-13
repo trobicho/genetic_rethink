@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 18:29:33 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/13 05:49:51 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/13 18:41:43 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,15 @@ int	main(int ac, char **av)
 				<< std::endl << std::endl;
 		}
 		else if (g > 0 && g % 1000 == 0)
+		{
+			test_learning.eval_and_display(genetic.get_best_ref(), g);
 			std::cout << "gen(" << g << ")" << std::endl;
+		}
+		else if (g > 0 && g % 100 == 0)
+		{
+			test_learning.eval_and_display(genetic.get_best_ref(), g);
+			std::cout << "gen(" << g << ")" << std::endl;
+		}
 	}
 	return (0);
 }

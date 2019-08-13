@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 00:16:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/13 06:54:41 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/13 14:32:07 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int	Snake::eval_and_display(People_net &people, int generation)
 		rand_one_apple();
 	while(!m_dead)
 	{
+		system("clear");
 		for (int i=0; i<m_viewTab.size(); i++)
 		{
 			if (i > 0 && i % m_max.x == 0)
@@ -163,7 +164,7 @@ void Snake::step(People_net& people)
         m_bEat=false;
         m_score+=m_applePoint;
         m_moveNoEat=0;
-        add_len(15);
+        add_len(2);
         rand_one_apple();
     }
     else if(m_moveNoEat>(m_starving+m_snake.len))
