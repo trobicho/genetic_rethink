@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 00:16:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/13 14:32:07 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/15 02:13:07 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ Snake::Snake(int w, int h)
 	m_viewTab.resize(w * h, 0);
 	m_max.x = w;
 	m_max.y = h;
+	m_apple_vec.resize(1000);
 }
 
 void Snake::snake_init()
@@ -49,7 +50,7 @@ int		Snake::item_dist(int dir, int id, int maxD)
 		dy = dir-2;
 	p.x += dx;
 	p.y += dy;
-	for(d=0; d<maxD - 1; d++)
+	for(d=1; d<maxD; d++)
 	{
 		if (m_viewTab[p.x + p.y * m_max.x] == id)
 			return (d);
@@ -72,7 +73,7 @@ void Snake::sensor_update()
         else
             maxD=((dir%2)?m_max.y-m_snake.head.y:m_max.x-m_snake.head.x)-1;
         int t=head;
-        m_sensor[i]=maxD;
+        m_sensor[i]=maxD / (double)m_max.x;
         for(int a=0; a<2; a++)
         {
             if(a==1 && !m_bFood)
@@ -81,21 +82,18 @@ void Snake::sensor_update()
             {
                 if((d = item_dist(dir, a + 1, maxD)) >= 0)
 				{
-					m_sensor[3+a*3+i] = d + 1;
+					m_sensor[3+a*3+i] = d / (double)m_max.x;
 				}
                 else
 				{
-					if (a == 0)
-						m_sensor[3+a*3+i] = maxD;
-					else
-						m_sensor[3+a*3+i] = -10;
+					m_sensor[3+a*3+i] = maxD / double(m_max.x);
 				}
             }
         }
     }
 	if (m_extra_sensor)
 	{
-		m_sensor[m_nbOutPerDir * m_nb_direction] = (m_starving + m_snake.len) - m_moveNoEat;
+		m_sensor[m_nbOutPerDir * m_nb_direction] = (m_starving + m_snake.len - m_moveNoEat) / (double)m_starving;
 		if (m_extra_sensor > 1)
 			m_sensor[m_nbOutPerDir * m_nb_direction + 1] = m_snake.len;
 	}
@@ -105,7 +103,7 @@ int	Snake::eval_and_display(People_net &people, int generation)
 {
 	snake_init();
 	if(m_bFood)
-		rand_one_apple();
+		next_apple();
 	while(!m_dead)
 	{
 		system("clear");
@@ -129,10 +127,17 @@ int	Snake::eval_and_display(People_net &people, int generation)
 
 int	Snake::do_evalutation(People_net &people, int generation)
 {
+	static int	last_gen = -1;
+
+	if (last_gen != generation)
+	{
+		rand_apple_vec();
+		last_gen = generation;
+	}
     if(m_activFoodGen>=0 && generation>=m_activFoodGen)
         set_food(true);
     if(m_bFood)
-		rand_one_apple();
+		next_apple();
 	snake_init();
 	while(!m_dead)
 	{
@@ -149,9 +154,9 @@ void Snake::step(People_net& people)
     sensor_update();
 	people.calc_output(m_sensor);
 	rep = people.get_answer();
-	if(rep==1)
+	if(rep==0)
 		change_dir(3);
-	else if(rep==2)
+	else if(rep==1)
 		change_dir(1);
     move();
     if(!m_bFood)
@@ -165,7 +170,7 @@ void Snake::step(People_net& people)
         m_score+=m_applePoint;
         m_moveNoEat=0;
         add_len(2);
-        rand_one_apple();
+        next_apple();
     }
     else if(m_moveNoEat>(m_starving+m_snake.len))
         m_dead=true;
@@ -175,17 +180,36 @@ void Snake::step(People_net& people)
 		m_score++;
 }
 
-void Snake::rand_one_apple()
+void Snake::next_apple()
 {
-	m_apple.x = trl::rand_uniform_int(2, m_max.x - 3);
-	m_apple.y = trl::rand_uniform_int(2, m_max.y - 3);
+	if (m_apple_cur >= m_apple_vec.size())
+		m_apple_cur = 0;
+	m_apple = m_apple_vec[m_apple_cur];
+	m_apple_cur++;
+}
+
+void Snake::rand_apple_vec()
+{
+	for (int i = 0; i < m_apple_vec.size(); i++)
+	{
+		m_apple_vec[i] = rand_apple_one();
+	}
+}
+
+s_vec2i	Snake::rand_apple_one()
+{
+	s_vec2i	apple;
+
+	apple.x = trl::rand_uniform_int(2, m_max.x - 3);
+	apple.y = trl::rand_uniform_int(2, m_max.y - 3);
+	return (apple);
 }
 
 void Snake::set_food(bool b)
 {
     m_bFood=b;
     if(m_bFood)
-        rand_one_apple();
+        next_apple();
 }
 
 void Snake::move()
