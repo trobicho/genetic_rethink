@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 00:16:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/15 02:13:07 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/15 13:05:30 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	Snake::eval_and_display(People_net &people, int generation)
 		for (int i=0; i<m_viewTab.size(); i++)
 		{
 			if (i > 0 && i % m_max.x == 0)
-				std::cout << std::endl;
+				std::cout << "\n";
 			if (m_viewTab[i] == 1)
 				std::cout << "# ";
 			else if (m_viewTab[i] == 2)

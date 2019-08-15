@@ -1,29 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Genetic_net_basic_mlp.h                            :+:      :+:    :+:   */
+/*   Genetic_neat.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/07 17:03:10 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/15 13:23:31 by trobicho         ###   ########.fr       */
+/*   Created: 2019/08/15 13:14:30 by trobicho          #+#    #+#             */
+/*   Updated: 2019/08/15 13:25:19 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
-
-#include "Genetic.h"
-#include "People_basic_mlp.h"
-#include "Learning_environment_net.h"
-#include <vector>
-
-using namespace std;
-
-class	Genetic_net_basic_mlp: public Genetic
+class	Genetic_neat: Genetic_net
 {
 	public:
-		Genetic_net_basic_mlp(Learning_environment_net &env, int nbPeople);
-		People_net&	get_best_ref() {return (m_people[0]);} //arf interface problem
+		Genetic_neat();
 
 	private:
 		int		do_get_generation(void);
