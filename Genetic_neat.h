@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:30 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/16 02:11:01 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/16 18:53:51 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ using namespace std;
 class	Genetic_neat: public Genetic_net
 {
 	public:
-		Genetic_neat();
+		Genetic_neat(Learning_environment_net &env, int nb_people);
 
 	private:
 		int		do_get_generation(void);

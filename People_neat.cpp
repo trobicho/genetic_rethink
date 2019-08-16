@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/16 03:12:13 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/16 22:28:10 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ const vector<double>&
 
 	for(int n=0; n<m_node_gene.size(); n++)
 	{
-		if (m_node_gene[i].layer == 0)
+		if (m_node_gene[n].layer == 0)
 		{
 			m_node_gene[n].in = input[n];
-			m_node_gene[n].calc_finish = true;
+			m_node_gene[n].nb_until_finish = 0;
 		}
 		else
 		{
@@ -115,7 +115,7 @@ void	People_neat::mutate_add_node(void)
 	std::uniform_int_distribution<int>
 		dis(0, m_connec_gene.size());
 
-	while (int i = 0; i < 10; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		r = dis(mt);
 		if (m_connec_gene[r].enabled)
@@ -123,7 +123,8 @@ void	People_neat::mutate_add_node(void)
 	}
 	if (m_connec_gene[r].enabled)
 	{
-		t_node_gene	node;
+		t_node_gene			node;
+		t_connection_gene	connec;
 		/*
 		node.layer = m_node_gene[m_connec_gene[r].node_in].layer + 1;
 		if (m_node_gene[m_connec_gene[r].node_out].layer
@@ -131,17 +132,18 @@ void	People_neat::mutate_add_node(void)
 			node.layer = m_node_gene[m_connec_gene[r].node_out].layer - 1;
 		*/
 		node.layer = 1;
-		m_node_gene.push_back();
-		m_connec_gene[r].enabled = false;
-		m_connec_gene.push_back();
-		m_connec_gene.back() = m_connec_gene[r];
+		m_node_gene.push_back(node);
+		m_connec_gene.push_back(m_connec_gene[r]);
 		m_connec_gene.back().node_out = m_node_gene.size() - 1;
-		m_connec_gene.back().innov = get_new_innovation_number();
+		m_connec_gene.back().innov = 2;//get_new_innovation_number();
+		m_connec_gene[r].enabled = false;
 	}
 }
 
 t_connection_gene&
 	People_neat::add_connection(int node_in, int node_out, bool enabled)
 {
-	m_connec_gene.push_back();
+	t_connection_gene	connec;
+
+	m_connec_gene.push_back(connec);
 }
