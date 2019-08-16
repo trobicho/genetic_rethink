@@ -6,11 +6,14 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:55 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/15 13:31:14 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/08/16 02:10:48 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+
+#include "People_net.h"
+#include <vector>
 
 typedef struct	s_node_gene
 {
@@ -31,12 +34,13 @@ typedef struct	s_connection_gene
 
 using namespace std;
 
-class	People_neat: People_net
+class	People_neat: public People_net
 {
 	public:
 		People_neat(int nb_input, int nb_output);
+		void	mutate_weight(void);
 		void	mutate_add_node(void);
-		void	mutate_add_connection(void){};
+		void	mutate_add_connection(void);
 
 	private:
 		void					do_set_score(int score);
@@ -47,4 +51,4 @@ class	People_neat: People_net
 		vector<t_node_gene>			m_node_gene;
 		vector<t_connection_gene>	m_connec_gene;
 		vector<double>				m_result;
-}
+};

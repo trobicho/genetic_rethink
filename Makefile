@@ -6,7 +6,7 @@
 #    By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/10 14:28:55 by trobicho          #+#    #+#              #
-#    Updated: 2019/08/13 05:05:33 by trobicho         ###   ########.fr        #
+#    Updated: 2019/08/16 01:56:28 by trobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,10 +46,14 @@ OBJS = $(addprefix $(OBJS_PATH)/, $(OBJS_NAME))
 TEST_NAME	=	test
 TEST_SRCS	=	main_test_simple.cpp \
 				Genetic_net_basic_mlp.cpp \
+				Genetic_neat.cpp \
 				People_basic_mlp.cpp \
+				People_neat.cpp \
 				./net_environment/Snake_copy_test.cpp
 TEST_HDRS	=	Genetic_net_basic_mlp.h \
+				Genetic_neat.h \
 				People_basic_mlp.h \
+				People_neat.h \
 				./net_environment/Snake_copy_test.h
 
 TEST_INCS_FLAGS	= $(INCS_FLAGS) -I./ -I../neuralNet -I./net_environment
