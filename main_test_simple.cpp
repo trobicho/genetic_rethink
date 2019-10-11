@@ -6,18 +6,19 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 18:29:33 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/15 02:05:50 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:29:52 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libgen.h"
 #include "Snake_copy_test.h"
+#include "Genetic_neat.h"
 #include <iostream>
 
 int	main(int ac, char **av)
 {
 	Snake					test_learning(45, 45);
-	Genetic_net_basic_mlp	genetic(test_learning, 100);
+	Genetic_neat			genetic(test_learning, 100);
 	int						best_score_total = 0;
 	int						gen_best_total = 0;
 

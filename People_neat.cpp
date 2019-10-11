@@ -6,16 +6,16 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/16 22:28:10 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/11 05:03:50 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "People_neat.h"
 #include "my_lib.h"
 
-People_neat(int nb_input, int nb_output)
+People_neat::People_neat(int nb_input, int nb_output)
 {
-	auto	mt = trl::req_mt_ref();
+	auto	&mt = trl::req_mt_ref();
 	std::uniform_real_distribution<double>
 			dis(-1, 1);
 
@@ -24,10 +24,11 @@ People_neat(int nb_input, int nb_output)
 	m_connec_gene.resize(nb_input * nb_output);
 	for (int o = 0; o < nb_output; o++)
 	{
+		m_node_gene[nb_input + o].layer = 2;
 		for (int i = 0; i < nb_input; i++)
 		{
 			m_connec_gene[o * nb_input + i].node_in = i;
-			m_connec_gene[o * nb_input + i].node_out = o;
+			m_connec_gene[o * nb_input + i].node_out = o + nb_input;
 			m_connec_gene[o * nb_input + i].enabled = true;
 			m_connec_gene[o * nb_input + i].weight = dis(mt);
 		}
@@ -46,7 +47,17 @@ int			People_neat::do_get_score(void) const
 
 int			People_neat::do_get_answer(void)
 {
-	return (answer());
+	double	max = m_result[0];
+	int		curMax = 0;
+
+	for(int i = 1; i < m_result.size(); i++)
+	{
+		if (m_result[i] > max)
+		{
+			max = m_result[i];
+			curMax = i;
+		}
+	}
 }
 
 
@@ -72,7 +83,7 @@ const vector<double>&
 	for(int c=0; c < m_connec_gene.size(); c++)
 	{
 		m_connec_gene[c].done = false;
-		m_node_gene[m_connec_gene[c].out].nb_until_finish++;
+		m_node_gene[m_connec_gene[c].node_out].nb_until_finish++;
 	}
 	while (finish == false)
 	{
@@ -93,12 +104,13 @@ const vector<double>&
 			}
 		}
 	}
-	int	r = 0;
+	int	res = 0;
 	for(int n=0; n<m_node_gene.size(); n++)
 	{
 		if (m_node_gene[n].layer == 2)
-			m_result[r++] = m_node_gene[n].in;
+			m_result[res++] = m_node_gene[n].in;
 	}
+	return (m_result);
 }
 
 void	People_neat::mutate_weight(void)
@@ -106,12 +118,26 @@ void	People_neat::mutate_weight(void)
 	int	index = trl::rand_uniform_int(0, m_connec_gene.size());
 
 	m_connec_gene[index].weight += trl::rand_uniform_double(-0.5, 0.5);
+	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size())].weight
+		+= trl::rand_uniform_double(-0.5, 0.5);
+	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size())].weight
+		+= trl::rand_uniform_double(-0.5, 0.5);
+	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size())].weight
+		+= trl::rand_uniform_double(-0.5, 0.5);
+	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size())].weight
+		+= trl::rand_uniform_double(-0.5, 0.5);
+	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size())].weight
+		+= trl::rand_uniform_double(-0.5, 0.5);
+	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size())].weight
+		+= trl::rand_uniform_double(-0.5, 0.5);
+	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size())].weight
+		+= trl::rand_uniform_double(-0.5, 0.5);
 }
 
 void	People_neat::mutate_add_node(void)
 {
 	int		r;
-	auto	mt = trl::req_mt_ref();
+	auto	&mt = trl::req_mt_ref();
 	std::uniform_int_distribution<int>
 		dis(0, m_connec_gene.size());
 

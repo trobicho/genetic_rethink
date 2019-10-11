@@ -6,13 +6,14 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:27 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/16 02:08:55 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:35:23 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Genetic_neat.h"
 #include "my_lib.h"
 #include <algorithm>
+#include <iostream>
 
 Genetic_neat::
 	Genetic_neat(Learning_environment_net &env, int nb_people):

@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:30 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/16 18:53:51 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:30:54 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@
 
 using namespace std;
 
-class	Genetic_neat: public Genetic_net
+class	Genetic_neat: public Genetic
 {
 	public:
 		Genetic_neat(Learning_environment_net &env, int nb_people);
+		People_net&	get_best_ref() {return (m_people[0]);} //arf interface problem
 
 	private:
 		int		do_get_generation(void);

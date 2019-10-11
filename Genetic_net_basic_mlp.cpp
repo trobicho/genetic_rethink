@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 00:52:37 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/13 06:51:35 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/11 05:04:06 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	Genetic_net_basic_mlp::do_next_gen(void)
 
 int		Genetic_net_basic_mlp::kill_one_people(int n)
 {
-	auto	temp = m_people[0];
+	auto&	temp = m_people[0];
 
 	if (m_cur_people_alive > 1 && n < m_cur_people_alive)
 	{
