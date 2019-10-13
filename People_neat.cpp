@@ -6,14 +6,15 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/11 05:03:50 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/13 21:55:38 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "People_neat.h"
 #include "my_lib.h"
 
-People_neat::People_neat(int nb_input, int nb_output)
+People_neat::People_neat(int nb_input, int nb_output): m_nb_input(nb_input)
+	, m_nb_output(nb_output)
 {
 	auto	&mt = trl::req_mt_ref();
 	std::uniform_real_distribution<double>
@@ -58,6 +59,7 @@ int			People_neat::do_get_answer(void)
 			curMax = i;
 		}
 	}
+	return (curMax);
 }
 
 
@@ -115,22 +117,22 @@ const vector<double>&
 
 void	People_neat::mutate_weight(void)
 {
-	int	index = trl::rand_uniform_int(0, m_connec_gene.size());
+	int	index = trl::rand_uniform_int(0, m_connec_gene.size() - 1);
 
 	m_connec_gene[index].weight += trl::rand_uniform_double(-0.5, 0.5);
-	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size())].weight
+	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size()) - 1].weight
 		+= trl::rand_uniform_double(-0.5, 0.5);
-	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size())].weight
+	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size()) - 1].weight
 		+= trl::rand_uniform_double(-0.5, 0.5);
-	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size())].weight
+	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size()) - 1].weight
 		+= trl::rand_uniform_double(-0.5, 0.5);
-	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size())].weight
+	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size()) - 1].weight
 		+= trl::rand_uniform_double(-0.5, 0.5);
-	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size())].weight
+	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size()) - 1].weight
 		+= trl::rand_uniform_double(-0.5, 0.5);
-	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size())].weight
+	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size()) - 1].weight
 		+= trl::rand_uniform_double(-0.5, 0.5);
-	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size())].weight
+	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size()) - 1].weight
 		+= trl::rand_uniform_double(-0.5, 0.5);
 }
 
@@ -139,7 +141,7 @@ void	People_neat::mutate_add_node(void)
 	int		r;
 	auto	&mt = trl::req_mt_ref();
 	std::uniform_int_distribution<int>
-		dis(0, m_connec_gene.size());
+		dis(0, m_connec_gene.size() - 1); // -1 ?
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -166,10 +168,24 @@ void	People_neat::mutate_add_node(void)
 	}
 }
 
+void	People_neat::mutate_add_connection(void)
+{
+	int	node_ in;
+	int	node_out;
+
+	node_in = trl::rand_uniform_int(0, (m_node_gene.size() - 1) - m_nb_output);
+	if (node_in >= m_nb_input)
+		node_in += m_nb_output;
+	node_out = trl::rand_uniform_int(m_nbinput, m_node_gene.size() - 1);
+}
+
 t_connection_gene&
 	People_neat::add_connection(int node_in, int node_out, bool enabled)
 {
 	t_connection_gene	connec;
 
+	connec.node_in = node_in;
+	connec.node_out = node_out;
+	connec.enabled = enabled;
 	m_connec_gene.push_back(connec);
 }

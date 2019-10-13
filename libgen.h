@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 18:36:44 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/10 19:20:51 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/11 23:14:12 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,3 @@
 /*
 **	Common Implementation
 */
-
-#include "Genetic_net_basic_mlp.h"

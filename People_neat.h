@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:55 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/16 18:52:24 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/13 21:45:20 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,5 @@ class	People_neat: public People_net
 		vector<t_connection_gene>	m_connec_gene;
 		vector<double>				m_result;
 		int							m_score;
+		int							m_nb_input, m_nb_output;
 };

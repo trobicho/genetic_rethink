@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 00:16:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/15 13:05:30 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/11 23:03:13 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,16 @@ void Snake::sensor_update()
         for(int a=0; a<2; a++)
         {
             if(a==1 && !m_bFood)
-                m_sensor[6+i]=-10;
+                m_sensor[6+i]=0;
             else
             {
                 if((d = item_dist(dir, a + 1, maxD)) >= 0)
 				{
-					m_sensor[3+a*3+i] = d / (double)m_max.x;
+					m_sensor[3+a*3+i] = 1.0 - d / (double)m_max.x;
 				}
                 else
 				{
-					m_sensor[3+a*3+i] = maxD / double(m_max.x);
+					m_sensor[3+a*3+i] = 1.0 - maxD / double(m_max.x);
 				}
             }
         }

@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:27 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/10 19:35:23 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/12 05:03:01 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,12 @@ void	Genetic_neat::do_next_gen(void)
 
 int		Genetic_neat::kill_one_people(int n)
 {
-	auto	temp = m_people[0];
 
 	if (m_cur_people_alive > 1 && n < m_cur_people_alive)
 	{
 		if (n != m_cur_people_alive - 1)
 		{
-			temp = m_people[n];
+			auto	&temp = m_people[n];
 			m_people[n] = m_people[m_cur_people_alive - 1];
 			m_people[m_cur_people_alive - 1] = temp;
 		}
@@ -76,7 +75,7 @@ int		Genetic_neat::sigma_kill(int nb)
 	nb_kill = 0;
 	for (int i = 0; i < nb; i++)
 	{
-		int n = trl::wheel_sigma(m_cur_people_alive);
+		int n = trl::wheel_sigma(m_cur_people_alive - 1);
 		nb_kill += kill_one_people(n);
 		//std::cout << n << " ";
 	}
@@ -101,6 +100,7 @@ void	Genetic_neat::apply_evolving_rules(void)
 		if (dis(mt) < m_mutate_prob)
 		{
 			m_people[m_cur_people_alive + (nb_kill - 1)].mutate_weight();
+			m_people[m_cur_people_alive + (nb_kill - 1)].mutate_add_node();
 			nb_kill--;
 		}
 	}
