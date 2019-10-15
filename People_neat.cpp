@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/15 12:02:59 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/15 12:30:55 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void	People_neat::mutate_add_connection(void)
 	if (node_in >= m_nb_input)
 		node_in += m_nb_output;
 	node_out = trl::rand_uniform_int(m_nb_input, m_node_gene.size() - 1);
-	node_out = trl::rand_uniform_int(0, m_nb_output - 1) + m_nb_input;
+	//node_out = trl::rand_uniform_int(0, m_nb_output - 1) + m_nb_input;
 	add_connection(node_in, node_out, true);
 	m_connec_gene.back().innov = 3;
 }

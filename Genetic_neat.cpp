@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:27 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/15 11:24:43 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/15 12:31:59 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	Genetic_neat::apply_evolving_rules(void)
 		{
 			m_people[m_cur_people_alive + (nb_kill - 1)].mutate_weight();
 			m_people[m_cur_people_alive + (nb_kill - 1)].mutate_add_node();
+			m_people[m_cur_people_alive + (nb_kill - 1)].mutate_add_connection();
 			nb_kill--;
 		}
 	}
