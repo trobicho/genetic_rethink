@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:55 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/13 21:45:20 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/15 11:50:22 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,20 @@ class	People_neat: public People_net
 		void	mutate_add_node(void);
 		void	mutate_add_connection(void);
 
+		int		get_nb_input_node(){return (m_nb_input);}
+		int		get_nb_output_node(){return (m_nb_output);}
+		vector<t_node_gene>&		get_node_gene_ref()
+			{return (m_node_gene);}
+		vector<t_connection_gene>&	get_connection_gene_ref()
+			{return (m_connec_gene);}
+
 	private:
 		void					do_set_score(int score);
 		int						do_get_score(void) const;
 		int						do_get_answer(void);
 		const vector<double>&	do_calc_output(const vector<double> &input);
 		t_connection_gene&		add_connection(int node_in, int node_out, bool enabled);
+		void					debug_people_test();
 
 		vector<t_node_gene>			m_node_gene;
 		vector<t_connection_gene>	m_connec_gene;

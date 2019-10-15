@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:27 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/12 05:03:01 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/15 11:24:43 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int		Genetic_neat::kill_one_people(int n)
 
 	if (m_cur_people_alive > 1 && n < m_cur_people_alive)
 	{
-		if (n != m_cur_people_alive - 1)
+		if (n < m_cur_people_alive - 1)
 		{
 			auto	&temp = m_people[n];
 			m_people[n] = m_people[m_cur_people_alive - 1];
