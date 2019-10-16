@@ -6,12 +6,13 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/15 12:30:55 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/16 14:21:49 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "People_neat.h"
 #include "my_lib.h"
+#include <algorithm>
 #include <iostream>
 
 People_neat::People_neat(int nb_input, int nb_output): m_nb_input(nb_input)
@@ -27,6 +28,7 @@ People_neat::People_neat(int nb_input, int nb_output): m_nb_input(nb_input)
 	for (int o = 0; o < nb_output; o++)
 	{
 		m_node_gene[nb_input + o].layer = 2;
+		m_node_gene[nb_input + o].rank = 0;
 		for (int i = 0; i < nb_input; i++)
 		{
 			m_connec_gene[o * nb_input + i].node_in = i;
@@ -148,8 +150,8 @@ void	People_neat::mutate_add_node(void)
 	}
 	if (m_connec_gene[r].enabled)
 	{
-		t_node_gene			node;
-		t_connection_gene	connec;
+		s_node_gene			node;
+		s_connection_gene	connec;
 		/*
 		node.layer = m_node_gene[m_connec_gene[r].node_in].layer + 1;
 		if (m_node_gene[m_connec_gene[r].node_out].layer
@@ -182,16 +184,53 @@ void	People_neat::mutate_add_connection(void)
 	m_connec_gene.back().innov = 3;
 }
 
-t_connection_gene&
+s_connection_gene&
 	People_neat::add_connection(int node_in, int node_out, bool enabled)
 {
-	t_connection_gene	connec;
+	s_connection_gene	connec;
 
 	connec.node_in = node_in;
 	connec.node_out = node_out;
 	connec.enabled = enabled;
 	m_connec_gene.push_back(connec);
+	if (m_node_gene[node_in].rank + 1 > m_node_gene[node_out].rank)
+	{
+		m_node_gene[node_out].rank = m_node_gene[node_in].rank + 1;
+		node_sort();
+	}
 	return (m_connec_gene.back());
+}
+
+void	People_neat::node_sort()
+{
+	if (m_node_gene.size() > m_nb_input + m_nb_output + 1)
+	{
+		size_t	nb_base_node = m_nb_input + m_nb_output;
+		vector<size_t> idx(m_node_gene.size() - nb_base_node);
+		iota(idx.begin(), idx.end(), nb_base_node);
+		sort(idx.begin(), idx.end(), [&m_node_gene = m_node_gene](size_t i1, size_t i2)
+			{return m_node_gene[i1] < m_node_gene[i2];});
+		for (size_t i = 0; i < idx.size(); i++)
+		{
+			if (idx[i] != i + nb_base_node)
+			{
+				for(size_t c=0; c < m_connec_gene.size(); c++)
+				{
+					if (m_connec_gene[c].node_in == idx[i])
+						m_connec_gene[c].node_in = -(i + nb_base_node);
+					if (m_connec_gene[c].node_out == idx[i])
+						m_connec_gene[c].node_out = -(i + nb_base_node);
+				}
+			}
+		}
+		for(size_t c=0; c < m_connec_gene.size(); c++)
+		{
+			if (m_connec_gene[c].node_in < 0)
+				m_connec_gene[c].node_in = -m_connec_gene[c].node_in;
+			if (m_connec_gene[c].node_out < 0)
+				m_connec_gene[c].node_out = -m_connec_gene[c].node_out;
+		}
+	}
 }
 
 void	People_neat::debug_people_test()
