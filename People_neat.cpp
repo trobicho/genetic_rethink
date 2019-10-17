@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/16 14:21:49 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/17 02:35:14 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,13 +159,13 @@ void	People_neat::mutate_add_node(void)
 			node.layer = m_node_gene[m_connec_gene[r].node_out].layer - 1;
 		*/
 		node.layer = 1;
+		node.rank = m_node_gene[m_connec_gene[r].node_in].rank + 1;
 		m_node_gene.push_back(node);
-		m_connec_gene.push_back(m_connec_gene[r]);
-		m_connec_gene.back().node_out = m_node_gene.size() - 1;
+		add_connection(m_connec_gene[r].node_in, m_node_gene.size() - 1, true);
 		m_connec_gene.back().innov = 2;//get_new_innovation_number();
-		m_connec_gene.push_back(m_connec_gene[r]);
-		m_connec_gene.back().node_in = m_node_gene.size() - 1;
-		m_connec_gene.back().weight = 1.0;
+		m_connec_gene.back().weight = m_connec_gene[r].weight;
+		add_connection(m_node_gene.size() - 1, m_connec_gene[r].node_out, true);
+		m_connec_gene.back().innov = 2;//get_new_innovation_number();
 		m_connec_gene[r].enabled = false;
 	}
 }
@@ -177,8 +177,17 @@ void	People_neat::mutate_add_connection(void)
 
 	node_in = trl::rand_uniform_int(0, (m_node_gene.size() - 1) - m_nb_output);
 	if (node_in >= m_nb_input)
+	{
 		node_in += m_nb_output;
-	node_out = trl::rand_uniform_int(m_nb_input, m_node_gene.size() - 1);
+		node_out = trl::rand_uniform_int(node_in + 1
+			, m_node_gene.size() + m_nb_output - 1);
+		if (node_out >= m_node_gene.size())
+			node_out -= (m_node_gene.size() - m_nb_input);
+	}
+	else
+	{
+		node_out = trl::rand_uniform_int(m_nb_input, m_node_gene.size() - 1);
+	}
 	//node_out = trl::rand_uniform_int(0, m_nb_output - 1) + m_nb_input;
 	add_connection(node_in, node_out, true);
 	m_connec_gene.back().innov = 3;
@@ -198,6 +207,7 @@ s_connection_gene&
 		m_node_gene[node_out].rank = m_node_gene[node_in].rank + 1;
 		node_sort();
 	}
+	m_connec_gene.back().weight = 1.0;
 	return (m_connec_gene.back());
 }
 
