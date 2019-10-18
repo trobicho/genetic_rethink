@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/17 02:35:14 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/17 17:14:22 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,9 +164,11 @@ void	People_neat::mutate_add_node(void)
 		add_connection(m_connec_gene[r].node_in, m_node_gene.size() - 1, true);
 		m_connec_gene.back().innov = 2;//get_new_innovation_number();
 		m_connec_gene.back().weight = m_connec_gene[r].weight;
-		add_connection(m_node_gene.size() - 1, m_connec_gene[r].node_out, true);
+		add_connection(m_connec_gene.back().node_out, m_connec_gene[r].node_out, true);
 		m_connec_gene.back().innov = 2;//get_new_innovation_number();
+		std::cout << m_node_gene[m_connec_gene[r].node_out].rank << std::endl;
 		m_connec_gene[r].enabled = false;
+		node_sort();
 	}
 }
 
@@ -218,21 +220,33 @@ void	People_neat::node_sort()
 		size_t	nb_base_node = m_nb_input + m_nb_output;
 		vector<size_t> idx(m_node_gene.size() - nb_base_node);
 		iota(idx.begin(), idx.end(), nb_base_node);
-		sort(idx.begin(), idx.end(), [&m_node_gene = m_node_gene](size_t i1, size_t i2)
-			{return m_node_gene[i1] < m_node_gene[i2];});
+		sort(idx.begin(), idx.end(), [&m_node_gene = m_node_gene]
+			(size_t i1, size_t i2) {return m_node_gene[i1] < m_node_gene[i2];});
+		std::cout << "=============" << std::endl;
 		for (size_t i = 0; i < idx.size(); i++)
 		{
 			if (idx[i] != i + nb_base_node)
 			{
+				std::cout << "swap: [" << i + nb_base_node 
+					<< ", " << idx[i] << "]" << std::endl;
+				s_node_gene	tmp = m_node_gene[i + nb_base_node];
+				m_node_gene[i + nb_base_node] = m_node_gene[idx[i]];
+				m_node_gene[idx[i]] = tmp;
 				for(size_t c=0; c < m_connec_gene.size(); c++)
 				{
 					if (m_connec_gene[c].node_in == idx[i])
 						m_connec_gene[c].node_in = -(i + nb_base_node);
 					if (m_connec_gene[c].node_out == idx[i])
 						m_connec_gene[c].node_out = -(i + nb_base_node);
+					if (m_connec_gene[c].node_in == idx[idx[i] - nb_base_node])
+						m_connec_gene[c].node_in = -(idx[i]);
+					if (m_connec_gene[c].node_out == idx[idx[i] - nb_base_node])
+						m_connec_gene[c].node_out = -(idx[i]);
 				}
+				idx[idx[i] - nb_base_node] = idx[i];
 			}
 		}
+		std::cout << "=============" << std::endl;
 		for(size_t c=0; c < m_connec_gene.size(); c++)
 		{
 			if (m_connec_gene[c].node_in < 0)
