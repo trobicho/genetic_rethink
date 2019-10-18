@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:27 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/15 12:31:59 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/18 17:18:37 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ Genetic_neat::
 	for (int i = 0; i < nb_people; i++)
 	{
 		m_people.push_back(
-			People_neat(env.get_nb_input(), env.get_nb_output()));
+			People_neat(env.get_nb_input(), env.get_nb_output(), &get_new_innov_number));
 	}
 }
 

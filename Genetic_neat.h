@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:30 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/15 08:59:22 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/18 17:31:51 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class	Genetic_neat: public Genetic
 {
 	public:
 		Genetic_neat(Learning_environment_net &env, int nb_people);
-		People_net&	get_best_ref() {return (m_people[0]);} //arf interface problem
+		People_net&		get_best_ref() {return (m_people[0]);} //arf interface problem
 		People_neat&	get_best_debug_ref() {return (m_people[0]);} //arf interface problem
 
 	private:
@@ -33,6 +33,7 @@ class	Genetic_neat: public Genetic
 		void	apply_evolving_rules(void);
 		int		kill_one_people(int n);
 		int		sigma_kill(int n);
+		friend int		get_new_innov_number();
 
 		vector<People_neat>			m_people;
 		int							m_generation = 1;
@@ -40,3 +41,9 @@ class	Genetic_neat: public Genetic
 		Learning_environment_net	&m_env; //Temp have to be replace with a evaluator
 		size_t						m_cur_people_alive;
 };
+
+inline int		get_new_innov_number()
+{
+	static int	m_cur_innov_number = 1;
+	return (m_cur_innov_number++);
+}
