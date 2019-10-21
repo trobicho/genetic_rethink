@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:55 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/18 17:46:39 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/20 22:53:14 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,11 @@ class	People_neat: public People_net
 
 		size_t	get_nb_input_node(){return (m_nb_input);}
 		size_t	get_nb_output_node(){return (m_nb_output);}
+		size_t	get_node_idx(size_t node);
 		vector<s_node_gene>&		get_node_gene_ref()
 			{return (m_node_gene);}
+		vector<size_t>&				get_node_idx_ref()
+			{return (m_node_idx);}
 		vector<s_connection_gene>&	get_connection_gene_ref()
 			{return (m_connec_gene);}
 
@@ -85,6 +88,7 @@ class	People_neat: public People_net
 		vector<s_node_gene>			m_node_gene;
 		vector<s_connection_gene>	m_connec_gene;
 		vector<double>				m_result;
+		vector<size_t>				m_node_idx;
 		int							m_score;
 		size_t						m_nb_input, m_nb_output;
 		int							(*m_get_new_innov_number)(void);

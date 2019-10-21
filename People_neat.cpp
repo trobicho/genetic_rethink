@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/18 17:51:37 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/20 23:38:20 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,16 @@ const vector<double>&
 
 void	People_neat::mating(People_neat &p1, People_neat &p2)
 {
+	People_neat	&tmp;
 
+	if (p2.get_score() > p1.get_score()) 
+	{
+		tmp = p1;
+		p1 = p2;
+		p2 = tmp;
+	}
+	m_node_gene.assign(p1.m_node_gene.begin(), p1.m_node_gene.end());
+	m_connec_gene.assign(p1.m_connec_gene.begin(), p1.m_connec_gene.end());
 }
 
 void	People_neat::mutate_weight(void)
@@ -184,10 +193,12 @@ void	People_neat::mutate_add_connection(void)
 	if (node_in >= m_nb_input)
 	{
 		node_in += m_nb_output;
-		node_out = trl::rand_uniform_int(node_in + 1
-			, m_node_gene.size() + m_nb_output - 1);
-		if (node_out >= m_node_gene.size())
-			node_out -= (m_node_gene.size() - m_nb_input);
+		node_out = trl::rand_uniform_int(get_node_idx(node_in) + 1
+			, m_node_idx.size() + m_nb_output - 1);
+		if (node_out >= m_node_idx.size())
+			node_out -= (m_node_idx.size() - m_nb_input);
+		else
+			node_out = m_node_idx[node_out];
 	}
 	else
 	{
@@ -221,47 +232,24 @@ void	People_neat::node_sort()
 	size_t	node1;
 	size_t	node2;
 
-	if (m_node_gene.size() > m_nb_input + m_nb_output + 1)
+	if (m_node_gene.size() > m_nb_input + m_nb_output)
 	{
 		size_t	nb_base_node = m_nb_input + m_nb_output;
-		vector<std::pair<int, size_t>> idx(m_node_gene.size() - nb_base_node);
-		for (size_t i = 0; i < idx.size(); i++)
-		{
-			idx[i].second = i + nb_base_node;
-			idx[i].first = m_node_gene[idx[i].second].rank;
-		}
-		sort(idx.begin(), idx.end());
-		for (size_t i = 0; i < idx.size(); i++)
-		{
-			if (idx[i].second != i + nb_base_node)
-			{
-				m_node_gene[i + nb_base_node].rank = idx[i].first;
-				for(size_t c = 0; c < m_connec_gene.size(); c++)
-				{
-					if (m_connec_gene[c].node_in == idx[i].second)
-						m_connec_gene[c].node_in = -(i + nb_base_node);
-					if (m_connec_gene[c].node_out == idx[i].second)
-						m_connec_gene[c].node_out = -(i + nb_base_node);
-				}
-			}
-		}
-		for(size_t c = 0; c < m_connec_gene.size(); c++)
-		{
-			if (m_connec_gene[c].node_in < 0)
-				m_connec_gene[c].node_in = -m_connec_gene[c].node_in;
-			if (m_connec_gene[c].node_out < 0)
-				m_connec_gene[c].node_out = -m_connec_gene[c].node_out;
-		}
+		m_node_idx.resize(m_node_gene.size() - nb_base_node);
+		iota(m_node_idx.begin(), m_node_idx.end(), nb_base_node);
+		sort(m_node_idx.begin(), m_node_idx.end(), [&m_node_gene = m_node_gene]
+			(size_t i1, size_t i2) {return m_node_gene[i1] < m_node_gene[i2];});
 	}
 }
 
-void	People_neat::swap_node(size_t n1, size_t n2)
+size_t	People_neat::get_node_idx(size_t node)
 {
-/*
-	s_node_gene	tmp_node = m_node_gene[i + nb_base_node];
-	m_node_gene[i + nb_base_node] = m_node_gene[idx[i]];
-	m_node_gene[idx[i]] = tmp_node;
-*/
+	for (int i = 0; i < m_node_idx.size(); i++)
+	{
+		if (m_node_idx[i] == node)
+			return (i);
+	}
+	return (0);
 }
 
 void	People_neat::debug_people_test()
