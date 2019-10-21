@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Snake_copy_test.h                                  :+:      :+:    :+:   */
+/*   Snake_8_test.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/13 00:17:00 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/21 21:49:05 by trobicho         ###   ########.fr       */
+/*   Created: 2019/10/22 00:36:33 by trobicho          #+#    #+#             */
+/*   Updated: 2019/10/22 00:41:27 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #pragma once
 
@@ -73,7 +74,7 @@ class	Snake: public Learning_environment_net
         int				m_moveNoEat=0;
         int				m_nbOutPerDir = 3;
         int				m_nbMove;
-		int				m_nb_direction = 3;
+		int				m_nb_direction = 7;
         int				m_activFoodGen = 0;
         bool			m_dead = false;
 		bool			m_bFood = false;

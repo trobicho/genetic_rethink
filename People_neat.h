@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:55 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/20 22:53:14 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/21 19:38:16 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ class	People_neat: public People_net
 {
 	public:
 		People_neat(int nb_input, int nb_output, int (*get_new_innov)(void));
+		void	copy_gene(People_neat &people);
 		void	mutate_weight(void);
 		void	mutate_add_node(void);
 		void	mutate_add_connection(void);

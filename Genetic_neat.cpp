@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:27 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/18 17:18:37 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/21 21:44:53 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,12 @@ int		Genetic_neat::sigma_kill(int nb)
 void	Genetic_neat::apply_evolving_rules(void)
 {
 	int		nb_kill;
+	double	p;
 	auto&	mt = trl::req_mt_ref();
 	std::uniform_real_distribution<double>
 			dis(0.0, 1.0);
+	std::uniform_int_distribution<int>
+			dice3(0, 3);
 
 	m_cur_people_alive = m_people.size();
 	std::sort(m_people.rbegin(), m_people.rend());
@@ -99,9 +102,32 @@ void	Genetic_neat::apply_evolving_rules(void)
 			i = 0;
 		if (dis(mt) < m_mutate_prob)
 		{
-			m_people[m_cur_people_alive + (nb_kill - 1)].mutate_weight();
-			m_people[m_cur_people_alive + (nb_kill - 1)].mutate_add_node();
-			m_people[m_cur_people_alive + (nb_kill - 1)].mutate_add_connection();
+			int d = dice3(mt);
+			int p = trl::rand_uniform_int(0, m_cur_people_alive - 1);
+
+			m_people[m_cur_people_alive + (nb_kill - 1)].copy_gene(m_people[p]);
+			if (d == 0)
+			{
+				m_people[m_cur_people_alive + (nb_kill - 1)].mutate_weight();
+				m_people[m_cur_people_alive + (nb_kill - 1)].mutate_weight();
+				m_people[m_cur_people_alive + (nb_kill - 1)].mutate_weight();
+				m_people[m_cur_people_alive + (nb_kill - 1)].mutate_weight();
+			}
+			else if (d == 1)
+				m_people[m_cur_people_alive + (nb_kill - 1)].mutate_add_node();
+			else
+				m_people[m_cur_people_alive + (nb_kill - 1)].mutate_add_connection();
+			nb_kill--;
+		}
+		else
+		{
+			int p1 = trl::wheel_sigma_rank(m_cur_people_alive - 1);
+			int p2 = trl::wheel_sigma_rank(m_cur_people_alive - 2);
+
+			if (p2 == p1)
+				p2++;
+			m_people[m_cur_people_alive + (nb_kill - 1)].mating(
+				m_people[p1], m_people[p2]);
 			nb_kill--;
 		}
 	}

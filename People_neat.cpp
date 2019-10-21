@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/20 23:38:20 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/21 20:06:42 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,18 +121,58 @@ const vector<double>&
 	return (m_result);
 }
 
+void	People_neat::copy_gene(People_neat &people)
+{
+	m_node_gene.assign(people.m_node_gene.begin()
+		, people.m_node_gene.end());
+	m_connec_gene.assign(people.m_connec_gene.begin()
+		, people.m_connec_gene.end());
+	node_sort();
+}
+
 void	People_neat::mating(People_neat &p1, People_neat &p2)
 {
-	People_neat	&tmp;
+	auto&										mt = trl::req_mt_ref();
+	People_neat									&tmp = p1;
+	std::uniform_int_distribution<int>			dis(0, 1);
+	std::vector<s_connection_gene>::iterator	ic1;
+	std::vector<s_connection_gene>::iterator	ic2;
 
 	if (p2.get_score() > p1.get_score()) 
 	{
-		tmp = p1;
 		p1 = p2;
 		p2 = tmp;
 	}
 	m_node_gene.assign(p1.m_node_gene.begin(), p1.m_node_gene.end());
 	m_connec_gene.assign(p1.m_connec_gene.begin(), p1.m_connec_gene.end());
+	ic1 = p1.m_connec_gene.begin();
+	ic2 = p2.m_connec_gene.begin();
+	//std::cout << "=================" << std::endl;
+	for (int i = 0; ic1 != p1.m_connec_gene.end()
+		&& ic2 != p2.m_connec_gene.end() && i < m_connec_gene.size();)
+	{
+		if (ic1->innov == ic2->innov)
+		{
+			int r = dis(mt);
+			if (ic1->enabled && ic2->enabled)
+				m_connec_gene[i].weight = (r == 0 ? ic1->weight : ic2->weight);
+				//m_connec_gene[i].weight = (dis(mt) ? ic1->weight : ic2->weight);
+			//std::cout << "{" << i << ", " << r << "}";
+			++ic1;
+			++ic2;
+			++i;
+		}
+		else if (ic1->innov < ic2->innov)
+		{
+			std::cout << "W";
+			++ic1;
+			++i;
+		}
+		else
+			++ic2;
+	}
+	node_sort();
+	//std::cout << std::endl << "=================" << std::endl;
 }
 
 void	People_neat::mutate_weight(void)
@@ -140,14 +180,6 @@ void	People_neat::mutate_weight(void)
 	int	index = trl::rand_uniform_int(0, m_connec_gene.size() - 1);
 
 	m_connec_gene[index].weight += trl::rand_uniform_double(-0.5, 0.5);
-	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size() - 1)].weight
-		+= trl::rand_uniform_double(-0.5, 0.5);
-	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size() - 1)].weight
-		+= trl::rand_uniform_double(-0.5, 0.5);
-	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size() - 1)].weight
-		+= trl::rand_uniform_double(-0.5, 0.5);
-	m_connec_gene[trl::rand_uniform_int(0, m_connec_gene.size() - 1)].weight
-		+= trl::rand_uniform_double(-0.5, 0.5);
 }
 
 void	People_neat::mutate_add_node(void)
