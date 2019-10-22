@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 00:16:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/22 02:33:54 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/22 03:11:31 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void Snake::sensor_update()
 				}
                 else
 				{
-					m_sensor[3+a*3+i] = 1.0 - maxD / double(m_max.x);
+					m_sensor[3+a*3+i] = 1.0 - maxD / (double)m_max.x;
 				}
             }
         }
@@ -167,7 +167,7 @@ void Snake::step(People_net& people)
         m_bEat=false;
         m_score+=m_applePoint;
         m_moveNoEat=0;
-        add_len(2);
+        add_len(m_apple_add_len);
         next_apple();
     }
     else if(m_moveNoEat>(m_starving+m_snake.len))
