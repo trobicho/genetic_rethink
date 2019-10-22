@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:27 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/21 21:44:53 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/22 19:39:45 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ Genetic_neat::
 		m_people.push_back(
 			People_neat(env.get_nb_input(), env.get_nb_output(), &get_new_innov_number));
 	}
+	create_species();
 }
 
 int		Genetic_neat::do_get_generation(void)
@@ -39,6 +40,8 @@ int		Genetic_neat::do_get_best_score(void)
 
 void	Genetic_neat::do_next_gen(void)
 {
+	species_choose_representative();
+	place_all_into_species();
 	if (m_generation > 0)
 	{
 		apply_evolving_rules();
@@ -49,6 +52,79 @@ void	Genetic_neat::do_next_gen(void)
 	}
 	std::sort(m_people.rbegin(), m_people.rend());
 	m_generation++;
+}
+
+void	Genetic_neat::create_species(void)
+{
+	int	p = trl::rand_uniform_int(0, m_people.size() - 1);
+
+	m_species.push_back(s_species(m_env));
+	m_species[0].nb_members = 0;
+	m_species[0].representative_people.copy_gene(m_people[p]);
+	place_all_into_species();
+}
+
+void	Genetic_neat::species_choose_representative(void)
+{
+	int	p_s;
+
+	for (int s = 0; s < m_species.size(); s++)
+	{
+		p_s = trl::rand_uniform_int(0, m_species[s].nb_members - 1);
+		m_species[s].nb_members = 0;
+		for (int p = 0, cur_p_s = 0; p < m_people.size(); p++)
+		{
+			if (m_people[p].get_species() == s)
+			{
+				if (cur_p_s == p_s)
+				{
+					m_species[s].representative_people.copy_gene(m_people[p]);
+					break;
+				}
+				cur_p_s++;
+			}
+		}
+	}
+}
+
+void	Genetic_neat::place_all_into_species(void)
+{
+	bool	found;
+	double	delta;
+
+	for (int s = 0; s < m_species.size(); s++)
+		m_species[s].nb_members = 0;
+	for (int p = 0; p < m_people.size(); p++)
+	{
+		found = false;
+		for (int s = 0; s < m_species.size(); s++)
+		{
+			delta = People_neat::get_delta_dist(
+					m_species[s].representative_people, m_people[p]
+					, m_species_var.c1, m_species_var.c2, m_species_var.c3);
+			if (delta < m_species_var.delta_threshold)
+			{
+				m_people[p].set_species(s);
+				m_species[s].nb_members++;
+				found = true;
+				break;
+			}
+			//std::cout << "delta = " << delta << std::endl;
+		}
+		if (!found)
+		{
+			m_species.push_back(s_species(m_env));
+			m_species.back().nb_members = 1;
+			m_species.back().representative_people.copy_gene(m_people[p]);
+		}
+	}
+	for (auto spi = m_species.begin(); spi != m_species.end();)
+	{
+		if (spi->nb_members == 0)
+			m_species.erase(spi);
+		else
+			++spi;
+	}
 }
 
 int		Genetic_neat::kill_one_people(int n)
