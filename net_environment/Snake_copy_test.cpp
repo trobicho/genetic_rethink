@@ -6,12 +6,12 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 00:16:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/22 00:40:47 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/22 02:33:54 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "my_lib.h"
-#include "Snake_8_test.h"
+#include "Snake_copy_test.h"
 #include <iostream>
 #include <unistd.h>
 

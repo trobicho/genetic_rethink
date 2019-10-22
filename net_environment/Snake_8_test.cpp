@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 00:36:39 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/22 00:41:09 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/22 02:27:20 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,9 @@ void Snake::sensor_update()
     int	head=m_snake.head.y*m_max.x+m_snake.head.x, d;
     int	maxD;
 
-    for(int i=0; i<m_nbOutPerDir; i++)
+    for(int i=0; i<m_nb_direction; i++)
     {
         int dir=((!m_snake.dir?3:m_snake.dir-1)+i)%4;
-        if(dir<2)
-            maxD=(dir%2)?m_snake.head.y:m_snake.head.x;
-        else
-            maxD=((dir%2)?m_max.y-m_snake.head.y:m_max.x-m_snake.head.x)-1;
         int t=head;
         m_sensor[i]=maxD / (double)m_max.x;
         for(int a=0; a<2; a++)
@@ -97,6 +93,15 @@ void Snake::sensor_update()
 		if (m_extra_sensor > 1)
 			m_sensor[m_nbOutPerDir * m_nb_direction + 1] = m_snake.len;
 	}
+}
+
+int	Snake::dist_to_wall(int dir)
+{
+	int	d;
+	if(dir < 2)
+		maxD=(dir%2)?m_snake.head.y:m_snake.head.x;
+	else
+		maxD=((dir%2)?m_max.y-m_snake.head.y:m_max.x-m_snake.head.x)-1;
 }
 
 int	Snake::eval_and_display(People_net &people, int generation)
