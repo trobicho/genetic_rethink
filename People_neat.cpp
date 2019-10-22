@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/21 20:06:42 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/22 06:47:37 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,12 @@ const vector<double>&
 				{
 					m_node_gene[out].in += m_node_gene[in].in * m_connec_gene[c].weight;
 					m_node_gene[out].nb_until_finish--;
+					m_connec_gene[c].done = true;
+					/*
+					if (m_node_gene[out].nb_until_finish == 0)
+						m_node_gene[out].in = trl::sigmoid(m_node_gene[out].in);
+					*/
+
 				}
 				else
 					finish = false;
