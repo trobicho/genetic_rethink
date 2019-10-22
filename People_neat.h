@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:55 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/22 18:53:18 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/22 21:06:18 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ class	People_neat: public People_net
 		void	mutate_add_connection(void);
 		void	mating(People_neat &p1, People_neat &p2);
 
+		void	set_sharing_score(double sharing_score)
+			{m_sharing_score = sharing_score;}
+		double	get_sharing_score(){return (m_sharing_score);}
 		void	set_species(int species){m_species = species;}
 		int		get_species(){return (m_species);}
 		size_t	get_nb_input_node(){return (m_nb_input);}
@@ -95,6 +98,7 @@ class	People_neat: public People_net
 		vector<double>				m_result;
 		vector<size_t>				m_node_idx;
 		int							m_score;
+		double						m_sharing_score;
 		size_t						m_nb_input, m_nb_output;
 		int							(*m_get_new_innov_number)(void);
 		int							m_species;
