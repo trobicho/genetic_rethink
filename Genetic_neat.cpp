@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:27 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/22 19:39:45 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/23 22:45:48 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ Genetic_neat::
 	for (int i = 0; i < nb_people; i++)
 	{
 		m_people.push_back(
-			People_neat(env.get_nb_input(), env.get_nb_output(), &get_new_innov_number));
+			People_neat(env.get_nb_input(), env.get_nb_output()
+				, &get_new_innov_number));
 	}
 	create_species();
 }
@@ -51,6 +52,7 @@ void	Genetic_neat::do_next_gen(void)
 		m_people[i].set_score(m_env.evaluate(m_people[i], m_generation));
 	}
 	std::sort(m_people.rbegin(), m_people.rend());
+	species_calc_sharing_fitness();
 	m_generation++;
 }
 
@@ -85,6 +87,45 @@ void	Genetic_neat::species_choose_representative(void)
 			}
 		}
 	}
+}
+
+void	Genetic_neat::species_calc_sharing_fitness(void)
+{
+	std::vector<People_neat>::iterator	p;
+	std::vector<People_neat>::iterator	p_sh;
+	int									sh;
+	double								delta;
+
+	for (int s = 0; s < m_species.size(); ++s)
+	{
+		m_species[s].sharing_fit = 0.0;
+		m_species[s].people.clear();
+		m_species[s].people.reserve(m_species[s].nb_members);
+	}
+	for (p = m_people.begin(); p != m_people.end(); ++p)
+	{
+		m_species[p->get_species()].people.push_back(*p);
+		if (p->get_score() == 0)
+			p->set_sharing_score(0.0);
+		else
+		{
+			sh = 1;
+			for (p_sh = m_people.begin(); p_sh != m_people.end(); ++p_sh)
+			{
+				if (p_sh == p)
+					continue ;
+				delta = People_neat::get_delta_dist(*p, *p_sh
+					, m_species_var.c1, m_species_var.c2, m_species_var.c3);
+				if (delta < m_species_var.delta_threshold)
+					sh++;
+			}
+			p->set_sharing_score((double)p->get_score() / (double)sh);
+			m_species[p->get_species()].sharing_fit += p->get_sharing_score();
+		}
+	}
+	m_total_species_fitness = 0.0;
+	for (int s = 0; s < m_species.size(); ++s)
+		m_total_species_fitness += m_species[s].sharing_fit;
 }
 
 void	Genetic_neat::place_all_into_species(void)
@@ -132,12 +173,7 @@ int		Genetic_neat::kill_one_people(int n)
 
 	if (m_cur_people_alive > 1 && n < m_cur_people_alive)
 	{
-		if (n < m_cur_people_alive - 1)
-		{
-			auto	&temp = m_people[n];
-			m_people[n] = m_people[m_cur_people_alive - 1];
-			m_people[m_cur_people_alive - 1] = temp;
-		}
+		m_people.erase(m_people.begin() + n);
 		m_cur_people_alive--;
 		return (1);
 	}
@@ -172,27 +208,26 @@ void	Genetic_neat::apply_evolving_rules(void)
 	m_cur_people_alive = m_people.size();
 	std::sort(m_people.rbegin(), m_people.rend());
 	nb_kill = sigma_kill(m_cur_people_alive / 3);
-	for (auto i = 0; nb_kill > 0; i++)
+	while (nb_kill > 0)
 	{
-		if (i >= m_cur_people_alive)
-			i = 0;
 		if (dis(mt) < m_mutate_prob)
 		{
 			int d = dice3(mt);
 			int p = trl::rand_uniform_int(0, m_cur_people_alive - 1);
 
-			m_people[m_cur_people_alive + (nb_kill - 1)].copy_gene(m_people[p]);
+			m_people.push_back(m_people[p]);
+			m_people.back().copy_gene(m_people[p]);
 			if (d == 0)
 			{
-				m_people[m_cur_people_alive + (nb_kill - 1)].mutate_weight();
-				m_people[m_cur_people_alive + (nb_kill - 1)].mutate_weight();
-				m_people[m_cur_people_alive + (nb_kill - 1)].mutate_weight();
-				m_people[m_cur_people_alive + (nb_kill - 1)].mutate_weight();
+				m_people.back().mutate_weight();
+				m_people.back().mutate_weight();
+				m_people.back().mutate_weight();
+				m_people.back().mutate_weight();
 			}
 			else if (d == 1)
-				m_people[m_cur_people_alive + (nb_kill - 1)].mutate_add_node();
+				m_people.back().mutate_add_node();
 			else
-				m_people[m_cur_people_alive + (nb_kill - 1)].mutate_add_connection();
+				m_people.back().mutate_add_connection();
 			nb_kill--;
 		}
 		else
@@ -202,8 +237,8 @@ void	Genetic_neat::apply_evolving_rules(void)
 
 			if (p2 == p1)
 				p2++;
-			m_people[m_cur_people_alive + (nb_kill - 1)].mating(
-				m_people[p1], m_people[p2]);
+			m_people.push_back(m_people[p1]);
+			m_people.back().mating(m_people[p1], m_people[p2]);
 			nb_kill--;
 		}
 	}

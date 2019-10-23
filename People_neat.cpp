@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/22 19:19:01 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/23 19:04:52 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,8 @@ const vector<double>&
 					m_node_gene[out].in += m_node_gene[in].in * m_connec_gene[c].weight;
 					m_node_gene[out].nb_until_finish--;
 					m_connec_gene[c].done = true;
-					/*
 					if (m_node_gene[out].nb_until_finish == 0)
 						m_node_gene[out].in = trl::sigmoid(m_node_gene[out].in);
-					*/
 
 				}
 				else
@@ -223,6 +221,10 @@ void	People_neat::mating(People_neat &p1, People_neat &p2)
 		else
 			++ic2;
 	}
+	for (int n = m_nb_input + m_nb_output; n < m_node_gene.size(); n++)
+	{
+		node_rerank(n);
+	}
 	node_sort();
 	//std::cout << std::endl << "=================" << std::endl;
 }
@@ -260,6 +262,7 @@ void	People_neat::mutate_add_node(void)
 		node.layer = 1;
 		node.rank = m_node_gene[m_connec_gene[r].node_in].rank + 1;
 		m_node_gene.push_back(node);
+		node_rerank(m_node_gene.size() - 1);
 		add_connection(m_connec_gene[r].node_in, m_node_gene.size() - 1, true);
 		m_connec_gene.back().weight = m_connec_gene[r].weight;
 		add_connection(m_connec_gene.back().node_out, m_connec_gene[r].node_out, true);
@@ -304,11 +307,36 @@ s_connection_gene&
 	if (m_node_gene[node_in].rank + 1 > m_node_gene[node_out].rank)
 	{
 		m_node_gene[node_out].rank = m_node_gene[node_in].rank + 1;
-		node_sort();
+		node_rerank(node_out);
 	}
 	m_connec_gene.back().weight = 1.0;
 	m_connec_gene.back().innov = m_get_new_innov_number();
 	return (m_connec_gene.back());
+}
+
+void	People_neat::node_rerank(int index)
+{
+	std::vector<int>	idx_out;
+	int					new_rank = 1;
+
+	for (int c = 0; c < m_connec_gene.size(); c++)
+	{
+		if (m_connec_gene[c].node_out == index && m_connec_gene[c].enabled)
+		{
+			if (new_rank <= m_node_gene[m_connec_gene[c].node_in].rank)
+			{
+				new_rank = m_node_gene[m_connec_gene[c].node_in].rank + 1;
+			}
+		}
+		else if (m_connec_gene[c].node_in == index)
+			idx_out.push_back(m_connec_gene[c].node_out);
+	}
+	m_node_gene[index].rank = new_rank;
+	for (int i = 0; i < idx_out.size(); i++)
+	{
+		node_rerank(idx_out[i]);
+	}
+	node_sort();
 }
 
 void	People_neat::node_sort()

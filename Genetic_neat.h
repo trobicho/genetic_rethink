@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:30 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/22 19:27:55 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/23 22:28:07 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ struct	s_species
 	s_species(Learning_environment_net &env)
 		: representative_people(env.get_nb_input(), env.get_nb_output()
 		, nullptr){};
-	int				nb_members;
-	People_neat		representative_people;
+	int								nb_members;
+	People_neat						representative_people;
+	std::vector<People_neat>		people;
+	double							sharing_fit;
 };
 
 class	Genetic_neat: public Genetic
@@ -52,6 +54,7 @@ class	Genetic_neat: public Genetic
 		void	create_species(void);
 		void	species_choose_representative(void);
 		void	place_all_into_species(void);
+		void	species_calc_sharing_fitness(void);
 		void	apply_evolving_rules(void);
 		int		kill_one_people(int n);
 		int		sigma_kill(int n);
@@ -64,6 +67,7 @@ class	Genetic_neat: public Genetic
 		size_t						m_cur_people_alive;
 		s_species_var				m_species_var;
 		vector<s_species>			m_species;
+		double						m_total_species_fitness;
 };
 
 inline int		get_new_innov_number()

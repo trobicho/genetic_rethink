@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:55 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/22 21:06:18 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/23 15:57:05 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ class	People_neat: public People_net
 		s_connection_gene&		add_connection(int node_in, int node_out, bool enabled);
 		void					debug_people_test();
 		void					node_sort();
+		void					node_rerank(int index);
 		void					swap_node(size_t n1, size_t n2);
 
 		vector<s_node_gene>			m_node_gene;
