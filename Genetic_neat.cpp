@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:27 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/24 16:09:58 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/24 21:12:01 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,18 @@ int		Genetic_neat::do_get_best_score(void)
 
 void	Genetic_neat::do_next_gen(void)
 {
-	species_choose_representative();
-	place_all_into_species();
-	if (m_generation > 0)
+	if (m_generation > 1)
 	{
-		apply_evolving_rules();
+		//apply_evolving_rules();
+		breed_all_species();
 	}
 	for (auto i = 0; i < m_people.size(); i++)
 	{
 		m_people[i].set_score(m_env.evaluate(m_people[i], m_generation));
 	}
 	std::sort(m_people.rbegin(), m_people.rend());
+	species_choose_representative();
+	place_all_into_species();
 	species_calc_sharing_fitness();
 	m_generation++;
 }
@@ -80,6 +81,7 @@ void	Genetic_neat::species_choose_representative(void)
 			{
 				if (cur_p_s == p_s)
 				{
+					m_species[s].representative_people = m_people[p];
 					m_species[s].representative_people.copy_gene(m_people[p]);
 					break;
 				}
@@ -104,9 +106,8 @@ void	Genetic_neat::species_calc_sharing_fitness(void)
 	}
 	for (p = m_people.begin(); p != m_people.end(); ++p)
 	{
-		m_species[p->get_species()].people.push_back(*p);
 		if (p->get_score() == 0)
-			p->set_sharing_score(0.0);
+			p->set_sharing_score(0.001);
 		else
 		{
 			sh = 1;
@@ -122,10 +123,24 @@ void	Genetic_neat::species_calc_sharing_fitness(void)
 			p->set_sharing_score((double)p->get_score() / (double)sh);
 			m_species[p->get_species()].sharing_fit += p->get_sharing_score();
 		}
+		m_species[p->get_species()].people.push_back(*p);
 	}
 	m_total_species_fitness = 0.0;
-	for (int s = 0; s < m_species.size(); ++s)
-		m_total_species_fitness += m_species[s].sharing_fit;
+	for (auto spi = m_species.begin(); spi != m_species.end();)
+	{
+		m_total_species_fitness += spi->sharing_fit;
+		if (spi->nb_members != spi->people.size())
+		{
+			std::cout << "BUG!!! {" << spi->nb_members << ", " << spi->people.size() << "}" << std::endl;
+			spi->nb_members = spi->people.size();
+		}
+		if (spi->nb_members == 0)
+		{
+			m_species.erase(spi);
+		}
+		else
+			spi++;
+	}
 }
 
 void	Genetic_neat::place_all_into_species(void)
@@ -154,6 +169,7 @@ void	Genetic_neat::place_all_into_species(void)
 		}
 		if (!found)
 		{
+			m_people[p].set_species(m_species.size());
 			m_species.push_back(s_species(m_env));
 			m_species.back().nb_members = 1;
 			m_species.back().representative_people.copy_gene(m_people[p]);
@@ -170,42 +186,72 @@ void	Genetic_neat::place_all_into_species(void)
 
 void	Genetic_neat::breed_all_species(void)
 {
-	size_t	nb_people = m_people.size();
+	//size_t	nb_people = m_people.size();
+	size_t	nb_people = 100;
 	size_t	nb_offspring;
 	size_t	nb_breed = 0;
 
 	m_people.clear();
-	for (int s = 0; s < m_species.size(); s++)
+	for (int s = 0; s < m_species.size() && nb_breed < nb_people; s++)
 	{
 		//m_species.people.erase(m_species.people.back());
 		if (m_species[s].sharing_fit > 0.001)
 		{
 			nb_offspring =
-				(m_total_species_fitness / m_species[s].sharing_fit) * nb_people;
+				(m_species[s].sharing_fit / m_total_species_fitness) * nb_people;
 			nb_breed += breed_one_species(m_species[s], nb_offspring);
 		}
 	}
 	while (nb_breed < nb_people)
 	{
-		breed_one_species(
-			m_species[trl::rand_uniform_int(0, m_species.size())], 1);
+		nb_breed += breed_one_species_round_error(
+			m_species[trl::rand_uniform_int(0, m_species.size() - 1)]);
 	}
+}
+
+int		Genetic_neat::breed_one_species_round_error(s_species &species)
+{
+	int p = trl::rand_uniform_int(0, species.nb_members - 1);
+
+	m_people.push_back(species.people[p]);
+	m_people.back().copy_gene(species.people[p]);
+	mutate_one_people(m_people.back());
+	return (1);
 }
 
 int		Genetic_neat::breed_one_species(s_species &species, int nb_offspring)
 {
 	std::vector<People_neat>::iterator	p = species.people.begin();
 	int									people_breed;
+	int									breed = 0;
+	auto&								mt = trl::req_mt_ref();
+	std::uniform_real_distribution<double>
+										dis(0.0, 1.0);
 
-	for (; p != species.people.end(); ++p)
+	for (; p != species.people.end() && breed < nb_offspring; ++p)
 	{
-		people_breed
-			= (species.sharing_fit / p->get_sharing_score()) * nb_offspring;
-		for (int b = 0; b < people_breed; b++)
+		people_breed = std::round(
+				(p->get_sharing_score() / species.sharing_fit) * nb_offspring);
+		for (int b = 0; b < people_breed && breed + b < nb_offspring; b++)
 		{
+			m_people.push_back(*p);
+			dis(mt);
+			if (dis(mt) < m_mutate_prob || species.nb_members == 1)
+			{
+				m_people.back().copy_gene(*p);
+				mutate_one_people(m_people.back());
+			}
+			else
+			{
+				int p2 = trl::rand_uniform_int(0, species.nb_members - 2);
+				if (p == species.people.begin() + p2)
+					p2++;
+				m_people.back().mating(*p, species.people[p2]);
+			}
 		}
+		breed += people_breed;
 	}
-	return (nb_offspring);
+	return (breed);
 }
 
 int		Genetic_neat::kill_one_people(int n)

@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:30 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/24 04:21:27 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/24 21:25:50 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ struct	s_species_var
 	double	c1 = 1.0;
 	double	c2 = 1.0;
 	double	c3 = 0.4;
-	double	delta_threshold = 1.5;
+	double	delta_threshold = 2.0;
 };
 
 struct	s_species
@@ -56,6 +56,7 @@ class	Genetic_neat: public Genetic
 		void	place_all_into_species(void);
 		void	breed_all_species(void);
 		int		breed_one_species(s_species &species, int nb_offspring);
+		int		breed_one_species_round_error(s_species &species);
 		void	species_calc_sharing_fitness(void);
 		void	apply_evolving_rules(void);
 		void	mutate_one_people(People_neat &people);
