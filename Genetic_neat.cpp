@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:27 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/24 06:53:27 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/24 16:09:58 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ void	Genetic_neat::breed_all_species(void)
 	for (int s = 0; s < m_species.size(); s++)
 	{
 		//m_species.people.erase(m_species.people.back());
-		if (m_species.sharing_fit > 0.001)
+		if (m_species[s].sharing_fit > 0.001)
 		{
 			nb_offspring =
 				(m_total_species_fitness / m_species[s].sharing_fit) * nb_people;
@@ -200,7 +200,7 @@ int		Genetic_neat::breed_one_species(s_species &species, int nb_offspring)
 	for (; p != species.people.end(); ++p)
 	{
 		people_breed
-			= (species.sharing_fit / p.get_sharing_score()) * nb_offspring;
+			= (species.sharing_fit / p->get_sharing_score()) * nb_offspring;
 		for (int b = 0; b < people_breed; b++)
 		{
 		}
