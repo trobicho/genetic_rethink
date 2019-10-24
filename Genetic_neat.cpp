@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:27 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/24 04:24:00 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/24 04:41:54 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,9 +178,12 @@ void	Genetic_neat::breed_all_species(void)
 	for (int s = 0; s < m_species.size(); s++)
 	{
 		//m_species.people.erase(m_species.people.back());
-		nb_offspring =
-			(m_total_species_fitness / m_species[s].sharing_fit) * nb_people;
-		nb_breed += breed_one_species(m_species[s], nb_offspring);
+		if (m_species.sharing_fit > 0.001)
+		{
+			nb_offspring =
+				(m_total_species_fitness / m_species[s].sharing_fit) * nb_people;
+			nb_breed += breed_one_species(m_species[s], nb_offspring);
+		}
 	}
 	while (nb_breed < nb_people)
 	{
@@ -191,8 +194,14 @@ void	Genetic_neat::breed_all_species(void)
 
 int		Genetic_neat::breed_one_species(s_species &species, int nb_offspring)
 {
-	for (int n = 0; n < nb_offspring; n++)
+	std::vector<People_neat>::iterator	p = species.people.begin();
+	int									people_breed;
+
+	for (; p != species.people.end(); ++p)
 	{
+		people_breed
+			= (species.sharing_fit / p.get_sharing_score()) * nb_offspring;
+		for ()
 	}
 	return (nb_offspring);
 }
