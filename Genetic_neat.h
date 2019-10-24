@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:30 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/23 22:28:07 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/24 04:21:27 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,11 @@ class	Genetic_neat: public Genetic
 		void	create_species(void);
 		void	species_choose_representative(void);
 		void	place_all_into_species(void);
+		void	breed_all_species(void);
+		int		breed_one_species(s_species &species, int nb_offspring);
 		void	species_calc_sharing_fitness(void);
 		void	apply_evolving_rules(void);
+		void	mutate_one_people(People_neat &people);
 		int		kill_one_people(int n);
 		int		sigma_kill(int n);
 		friend int		get_new_innov_number();

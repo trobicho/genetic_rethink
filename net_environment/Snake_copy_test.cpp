@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 00:16:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/22 03:11:31 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/24 04:06:41 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void Snake::snake_init()
     m_snake.vLen=1;
     init_body();
     m_snake.dir=0;
-    m_score=0;
+    m_score=1;
     m_dead=false;
     m_moveNoEat=0;
     m_nbMove=0;

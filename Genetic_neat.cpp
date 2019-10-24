@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:27 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/23 22:45:48 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/24 04:24:00 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,35 @@ void	Genetic_neat::place_all_into_species(void)
 	}
 }
 
+void	Genetic_neat::breed_all_species(void)
+{
+	size_t	nb_people = m_people.size();
+	size_t	nb_offspring;
+	size_t	nb_breed = 0;
+
+	m_people.clear();
+	for (int s = 0; s < m_species.size(); s++)
+	{
+		//m_species.people.erase(m_species.people.back());
+		nb_offspring =
+			(m_total_species_fitness / m_species[s].sharing_fit) * nb_people;
+		nb_breed += breed_one_species(m_species[s], nb_offspring);
+	}
+	while (nb_breed < nb_people)
+	{
+		breed_one_species(
+			m_species[trl::rand_uniform_int(0, m_species.size())], 1);
+	}
+}
+
+int		Genetic_neat::breed_one_species(s_species &species, int nb_offspring)
+{
+	for (int n = 0; n < nb_offspring; n++)
+	{
+	}
+	return (nb_offspring);
+}
+
 int		Genetic_neat::kill_one_people(int n)
 {
 
@@ -202,8 +231,6 @@ void	Genetic_neat::apply_evolving_rules(void)
 	auto&	mt = trl::req_mt_ref();
 	std::uniform_real_distribution<double>
 			dis(0.0, 1.0);
-	std::uniform_int_distribution<int>
-			dice3(0, 3);
 
 	m_cur_people_alive = m_people.size();
 	std::sort(m_people.rbegin(), m_people.rend());
@@ -212,22 +239,11 @@ void	Genetic_neat::apply_evolving_rules(void)
 	{
 		if (dis(mt) < m_mutate_prob)
 		{
-			int d = dice3(mt);
 			int p = trl::rand_uniform_int(0, m_cur_people_alive - 1);
 
 			m_people.push_back(m_people[p]);
 			m_people.back().copy_gene(m_people[p]);
-			if (d == 0)
-			{
-				m_people.back().mutate_weight();
-				m_people.back().mutate_weight();
-				m_people.back().mutate_weight();
-				m_people.back().mutate_weight();
-			}
-			else if (d == 1)
-				m_people.back().mutate_add_node();
-			else
-				m_people.back().mutate_add_connection();
+			mutate_one_people(m_people.back());
 			nb_kill--;
 		}
 		else
@@ -243,4 +259,21 @@ void	Genetic_neat::apply_evolving_rules(void)
 		}
 	}
 	m_cur_people_alive = m_people.size();
+}
+
+void	Genetic_neat::mutate_one_people(People_neat &people)
+{
+	int d = trl::rand_uniform_int(0, 2);
+
+	if (d == 0)
+	{
+		people.mutate_weight();
+		people.mutate_weight();
+		people.mutate_weight();
+		people.mutate_weight();
+	}
+	else if (d == 1)
+		people.mutate_add_node();
+	else
+		people.mutate_add_connection();
 }

@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 00:17:00 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/22 03:23:19 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/24 04:06:03 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ class	Snake: public Learning_environment_net
 		int				m_apple_cur = 0;
         int				m_basicLen=10;
         int				m_starving=700;
-        int				m_score = 0;
+        int				m_score = 1;
         int				m_moveNoEat=0;
         int				m_nbOutPerDir = 3;
         int				m_nbMove;
