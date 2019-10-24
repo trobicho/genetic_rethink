@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:27 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/24 04:41:54 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/24 06:53:27 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,9 @@ int		Genetic_neat::breed_one_species(s_species &species, int nb_offspring)
 	{
 		people_breed
 			= (species.sharing_fit / p.get_sharing_score()) * nb_offspring;
-		for ()
+		for (int b = 0; b < people_breed; b++)
+		{
+		}
 	}
 	return (nb_offspring);
 }
