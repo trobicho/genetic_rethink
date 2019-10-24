@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:30 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/24 21:25:50 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/24 21:44:47 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ struct	s_species_var
 	double	c1 = 1.0;
 	double	c2 = 1.0;
 	double	c3 = 0.4;
-	double	delta_threshold = 2.0;
+	double	delta_threshold = 3.0;
 };
 
 struct	s_species

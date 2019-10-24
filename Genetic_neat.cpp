@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:27 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/24 21:12:01 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/24 21:48:32 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,16 +320,16 @@ void	Genetic_neat::apply_evolving_rules(void)
 
 void	Genetic_neat::mutate_one_people(People_neat &people)
 {
-	int d = trl::rand_uniform_int(0, 2);
+	int d = trl::rand_uniform_int(0, 18);
 
-	if (d == 0)
+	if (d < 12)
 	{
 		people.mutate_weight();
 		people.mutate_weight();
 		people.mutate_weight();
 		people.mutate_weight();
 	}
-	else if (d == 1)
+	else if (d == 13 || d == 14)
 		people.mutate_add_node();
 	else
 		people.mutate_add_connection();

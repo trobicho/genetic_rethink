@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/23 19:04:52 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/24 21:44:05 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,12 @@ double	People_neat::get_delta_dist(People_neat &p1, People_neat &p2
 	std::vector<s_connection_gene>::iterator	ic1;
 	std::vector<s_connection_gene>::iterator	ic2;
 
+	/*
 	bigger_genome = (p1.m_connec_gene.size() > p2.m_connec_gene.size())
 			? p1.m_connec_gene.size() : p2.m_connec_gene.size();
 	bigger_genome -= p1.m_nb_input * p1.m_nb_output - 1;
+	*/
+	bigger_genome = std::abs((int)(p1.m_connec_gene.size() - p2.m_connec_gene.size())) + 1;
 	ic1 = p1.m_connec_gene.begin();
 	ic2 = p2.m_connec_gene.begin();
 	while (ic1 != p1.m_connec_gene.end() && ic2 != p2.m_connec_gene.end())
