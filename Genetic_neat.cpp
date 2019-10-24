@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:27 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/24 21:48:32 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/24 22:27:06 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,12 +175,25 @@ void	Genetic_neat::place_all_into_species(void)
 			m_species.back().representative_people.copy_gene(m_people[p]);
 		}
 	}
+	int s = 0;
 	for (auto spi = m_species.begin(); spi != m_species.end();)
 	{
 		if (spi->nb_members == 0)
+		{
 			m_species.erase(spi);
+			for (int p = 0; p < m_people.size(); p++)
+			{
+				if (m_people[p].get_species() > s)
+				{
+					m_people[p].set_species(m_people[p].get_species() + 1);
+				}
+			}
+		}
 		else
+		{
+			++s;
 			++spi;
+		}
 	}
 }
 
@@ -320,16 +333,16 @@ void	Genetic_neat::apply_evolving_rules(void)
 
 void	Genetic_neat::mutate_one_people(People_neat &people)
 {
-	int d = trl::rand_uniform_int(0, 18);
+	int d = trl::rand_uniform_int(0, 35);
 
-	if (d < 12)
+	if (d < 30)
 	{
 		people.mutate_weight();
 		people.mutate_weight();
 		people.mutate_weight();
 		people.mutate_weight();
 	}
-	else if (d == 13 || d == 14)
+	else if (d >= 31 && d <= 32)
 		people.mutate_add_node();
 	else
 		people.mutate_add_connection();
