@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/24 21:44:05 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/26 19:49:42 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,7 +236,7 @@ void	People_neat::mutate_weight(void)
 {
 	int	index = trl::rand_uniform_int(0, m_connec_gene.size() - 1);
 
-	m_connec_gene[index].weight += trl::rand_uniform_double(-0.5, 0.5);
+	m_connec_gene[index].weight += trl::rand_uniform_double(-0.3, 0.3);
 }
 
 void	People_neat::mutate_add_node(void)
