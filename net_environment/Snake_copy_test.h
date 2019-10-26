@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 00:17:00 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/24 22:31:11 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/26 08:01:46 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ class	Snake: public Learning_environment_net
 		void	next_apple();
 
 		s_vec2i			m_pos;
+		s_vec2i			m_head_pos_gen;
 		vector<double>	m_sensor;
         vector<int>		m_viewTab;
         s_snake			m_snake;
@@ -78,7 +79,7 @@ class	Snake: public Learning_environment_net
         bool			m_dead = false;
 		bool			m_bFood = false;
 		bool			m_bEat=false;
-		const int		m_extra_sensor = 0;
+		const int		m_extra_sensor = 2;
 		int				m_applePoint = 1;
-		int				m_apple_add_len = 4;
+		int				m_apple_add_len = 2;
 };

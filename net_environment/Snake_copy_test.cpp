@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 00:16:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/24 04:06:41 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/26 08:15:42 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ Snake::Snake(int w, int h)
 
 void Snake::snake_init()
 {
-    m_snake.head={.x=m_max.x/2, .y=m_max.y/2};
+    m_snake.head={.x = m_max.x/2, .y=m_max.y/2};
+	//m_snake.head = m_head_pos_gen;
     m_snake.len=m_basicLen;
     m_snake.vLen=1;
     init_body();
@@ -48,14 +49,13 @@ int		Snake::item_dist(int dir, int id, int maxD)
 		dx = dir-1;
 	else
 		dy = dir-2;
-	p.x += dx;
-	p.y += dy;
 	for(d=1; d<maxD; d++)
 	{
-		if (m_viewTab[p.x + p.y * m_max.x] == id)
-			return (d);
 		p.x += dx;
 		p.y += dy;
+		if (m_viewTab[p.x + p.y * m_max.x] == id
+			|| m_viewTab[p.x + p.y * m_max.x] == 3)
+			return (d);
 	}
 	return (-1);
 }
@@ -65,19 +65,19 @@ void Snake::sensor_update()
     int	head=m_snake.head.y*m_max.x+m_snake.head.x, d;
     int	maxD;
 
-    for(int i=0; i<m_nbOutPerDir; i++)
+    for(int i=0; i<m_nb_direction; i++)
     {
-        int dir=((!m_snake.dir?3:m_snake.dir-1)+i)%4;
+        int dir = ((m_snake.dir == 0 ? 3 : m_snake.dir - 1) + i) % 4;
         if(dir<2)
             maxD=(dir%2)?m_snake.head.y:m_snake.head.x;
         else
             maxD=((dir%2)?m_max.y-m_snake.head.y:m_max.x-m_snake.head.x)-1;
         int t=head;
-        m_sensor[i]=maxD / (double)m_max.x;
+        m_sensor[i]= 1.0 - maxD / (double)m_max.x;
         for(int a=0; a<2; a++)
         {
             if(a==1 && !m_bFood)
-                m_sensor[6+i]=0;
+                m_sensor[6+i]=-1.0;
             else
             {
                 if((d = item_dist(dir, a + 1, maxD)) >= 0)
@@ -86,16 +86,17 @@ void Snake::sensor_update()
 				}
                 else
 				{
-					m_sensor[3+a*3+i] = 1.0 - maxD / (double)m_max.x;
+					m_sensor[3 + a * 3 + i] = -1.0;
 				}
             }
         }
     }
 	if (m_extra_sensor)
 	{
-		m_sensor[m_nbOutPerDir * m_nb_direction] = (m_starving + m_snake.len - m_moveNoEat) / (double)m_starving;
+		m_sensor[m_nbOutPerDir * m_nb_direction] = 
+			(m_starving + m_snake.len - m_moveNoEat) / (double)m_starving;
 		if (m_extra_sensor > 1)
-			m_sensor[m_nbOutPerDir * m_nb_direction + 1] = m_snake.len;
+			m_sensor[m_nbOutPerDir * m_nb_direction + 1] = m_snake.len / 300.0;
 	}
 }
 
@@ -103,6 +104,7 @@ int	Snake::eval_and_display(People_net &people, int generation)
 {
 	snake_init();
 	m_apple_cur = 0;
+	next_apple();
 	while(!m_dead)
 	{
 		system("clear");
@@ -114,6 +116,8 @@ int	Snake::eval_and_display(People_net &people, int generation)
 				std::cout << "# ";
 			else if (m_viewTab[i] == 2)
 				std::cout << "$ ";
+			else if (m_viewTab[i] == 3)
+				std::cout << "@ ";
 			else
 				std::cout << ". ";
 		}
@@ -130,13 +134,16 @@ int	Snake::do_evalutation(People_net &people, int generation)
 
 	if (last_gen != generation)
 	{
+		m_head_pos_gen.x = trl::rand_uniform_int(0, m_max.x - 1);
+		m_head_pos_gen.y = trl::rand_uniform_int(0, m_max.y - 1);
 		rand_apple_vec();
 		last_gen = generation;
 	}
     if(m_activFoodGen>=0 && generation>=m_activFoodGen)
         set_food(true);
-	m_apple_cur = 0;
 	snake_init();
+	m_apple_cur = 0;
+	next_apple();
 	while(!m_dead)
 	{
 		step(people);
@@ -246,7 +253,7 @@ bool Snake::fillViewTab()
         }
     }
     if(m_bFood)
-        m_viewTab[m_apple.x+m_apple.y*m_max.x]=2;
+        m_viewTab[m_apple.x+m_apple.y*m_max.x] += 2;
     return m_dead;
 }
 

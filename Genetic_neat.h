@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:30 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/24 21:44:47 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/26 01:47:06 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ class	Genetic_neat: public Genetic
 		double						m_mutate_prob = 0.8;
 		Learning_environment_net	&m_env; //Temp have to be replace with a evaluator
 		size_t						m_cur_people_alive;
+		size_t						m_target_population;
 		s_species_var				m_species_var;
 		vector<s_species>			m_species;
 		double						m_total_species_fitness;

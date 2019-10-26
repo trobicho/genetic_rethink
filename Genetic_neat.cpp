@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:27 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/24 22:27:06 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/26 06:19:24 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ Genetic_neat::
 	Genetic_neat(Learning_environment_net &env, int nb_people):
 		m_env(env)
 {
+	m_target_population = nb_people;
 	m_people.reserve(nb_people);
 	for (int i = 0; i < nb_people; i++)
 	{
@@ -185,7 +186,7 @@ void	Genetic_neat::place_all_into_species(void)
 			{
 				if (m_people[p].get_species() > s)
 				{
-					m_people[p].set_species(m_people[p].get_species() + 1);
+					m_people[p].set_species(m_people[p].get_species() - 1);
 				}
 			}
 		}
@@ -199,23 +200,21 @@ void	Genetic_neat::place_all_into_species(void)
 
 void	Genetic_neat::breed_all_species(void)
 {
-	//size_t	nb_people = m_people.size();
-	size_t	nb_people = 100;
 	size_t	nb_offspring;
 	size_t	nb_breed = 0;
 
 	m_people.clear();
-	for (int s = 0; s < m_species.size() && nb_breed < nb_people; s++)
+	for (int s = 0; s < m_species.size() && nb_breed < m_target_population; s++)
 	{
 		//m_species.people.erase(m_species.people.back());
 		if (m_species[s].sharing_fit > 0.001)
 		{
-			nb_offspring =
-				(m_species[s].sharing_fit / m_total_species_fitness) * nb_people;
+			nb_offspring = (m_species[s].sharing_fit / m_total_species_fitness)
+				* m_target_population;
 			nb_breed += breed_one_species(m_species[s], nb_offspring);
 		}
 	}
-	while (nb_breed < nb_people)
+	while (nb_breed < m_target_population)
 	{
 		nb_breed += breed_one_species_round_error(
 			m_species[trl::rand_uniform_int(0, m_species.size() - 1)]);
@@ -333,16 +332,13 @@ void	Genetic_neat::apply_evolving_rules(void)
 
 void	Genetic_neat::mutate_one_people(People_neat &people)
 {
-	int d = trl::rand_uniform_int(0, 35);
+	double	d = trl::rand_uniform_double(0, 1);
 
-	if (d < 30)
+	if (d < 0.95)
 	{
 		people.mutate_weight();
-		people.mutate_weight();
-		people.mutate_weight();
-		people.mutate_weight();
 	}
-	else if (d >= 31 && d <= 32)
+	else if (d < 0.973)
 		people.mutate_add_node();
 	else
 		people.mutate_add_connection();
