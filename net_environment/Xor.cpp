@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 01:25:26 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/27 04:51:52 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/27 06:13:02 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ double	Xor::do_evalutation(People_net &people, int generation)
 		m_sensor[0] = (double)(i % 2);
 		m_sensor[1] = (double)(i / 2);
 		if (m_sensor.size() == 3)
-			m_sensor[3] = 1.0;
+			m_sensor[2] = 1.0;
 		auto& out = people.calc_output(m_sensor);
 		if (((i % 2) ^ (i / 2)))
 			expect = 1.0;
