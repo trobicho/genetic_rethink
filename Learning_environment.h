@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/07 14:50:45 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/10 15:43:53 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/27 04:05:11 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 class	Learning_environment
 {
 	public:
-		int	evaluate(People &people, int generation = -1);
+		double	evaluate(People &people, int generation = -1);
 
 	private:
-		virtual int	do_evalutation(People &people, int generation) = 0;
+		virtual double	do_evalutation(People &people, int generation) = 0;
 };

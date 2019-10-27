@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:55 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/23 15:57:05 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/27 03:57:24 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ class	People_neat: public People_net
 			People_neat &p1, People_neat &p2, double c1, double c2, double c3);
 
 	private:
-		void					do_set_score(int score);
-		int						do_get_score(void) const;
+		void					do_set_score(double score);
+		double					do_get_score(void) const;
 		int						do_get_answer(void);
 		const vector<double>&	do_calc_output(const vector<double> &input);
 		s_connection_gene&		add_connection(int node_in, int node_out, bool enabled);
@@ -98,7 +98,7 @@ class	People_neat: public People_net
 		vector<s_connection_gene>	m_connec_gene;
 		vector<double>				m_result;
 		vector<size_t>				m_node_idx;
-		int							m_score;
+		double						m_score;
 		double						m_sharing_score;
 		size_t						m_nb_input, m_nb_output;
 		int							(*m_get_new_innov_number)(void);

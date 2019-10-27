@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/26 19:49:42 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/27 03:59:20 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ People_neat::People_neat(int nb_input, int nb_output
 	}
 }
 
-void		People_neat::do_set_score(int score)
+void		People_neat::do_set_score(double score)
 {
 	m_score = score;
 }
 
-int			People_neat::do_get_score(void) const
+double		People_neat::do_get_score(void) const
 {
 	return (m_score);
 }
@@ -217,7 +217,7 @@ void	People_neat::mating(People_neat &p1, People_neat &p2)
 		}
 		else if (ic1->innov < ic2->innov)
 		{
-			std::cout << "W";
+			//std::cout << "W";
 			++ic1;
 			++i;
 		}
@@ -274,6 +274,7 @@ void	People_neat::mutate_add_node(void)
 	}
 }
 
+/*
 void	People_neat::mutate_add_connection(void)
 {
 	int	node_in;
@@ -294,8 +295,86 @@ void	People_neat::mutate_add_connection(void)
 	{
 		node_out = trl::rand_uniform_int(m_nb_input, m_node_gene.size() - 1);
 	}
+	for (int c = 0; c < m_connec_gene.size(); c++)
+	{
+		if (m_connec_gene[c].node_in == node_in
+			&& m_connec_gene[c].node_out == node_out)
+		{
+			if (m_connec_gene[c].enabled == false)
+			{
+				m_connec_gene[c].enabled = true;
+				node_rerank(node_out);
+				return ;
+			}
+			else
+				return ;
+		}
+	}
 	//node_out = trl::rand_uniform_int(0, m_nb_output - 1) + m_nb_input;
 	add_connection(node_in, node_out, true);
+}
+*/
+
+void	People_neat::mutate_add_connection(void)
+{
+	int						node_in;
+	int						node_out;
+	vector<size_t>			node_eligible;
+
+	node_in = trl::rand_uniform_int(0, (m_node_gene.size() - 1) - m_nb_output);
+	if (node_in >= m_nb_input)
+	{
+		node_in += m_nb_output;
+		int	id = get_node_idx(node_in) + 1;
+		node_eligible.resize(m_node_idx.size() - id + m_nb_output);
+		for (auto it = node_eligible.begin() + m_nb_output; id < m_node_idx.size()
+			; ++it, ++id)
+			*it = m_node_idx[id];
+		id = 0;
+		for (auto it = node_eligible.begin();
+			it != node_eligible.begin() + m_nb_output; ++it, ++id)
+			*it = m_nb_input + id;
+	}
+	else
+	{
+		int i = 0;
+		node_eligible.resize(m_node_gene.size() - m_nb_input);
+		for (auto it = node_eligible.begin();
+			it != node_eligible.end(); ++it, ++i)
+		{
+			*it = m_nb_input + i;
+		}
+	}
+	for (int c = 0; c < m_connec_gene.size() && node_eligible.size() > 0; c++)
+	{
+		if (m_connec_gene[c].enabled && m_connec_gene[c].node_in == node_in)
+		{
+			for (auto it = node_eligible.begin(); it != node_eligible.end(); ++it)
+			{
+				if (m_connec_gene[c].node_out == *it)
+				{
+					node_eligible.erase(it);
+					break;
+				}
+			}
+		}
+	}
+	if (node_eligible.size() > 0)
+	{
+		node_out
+			= node_eligible[trl::rand_uniform_int(0, node_eligible.size() - 1)];
+		for (int c = 0; c < m_connec_gene.size(); c++)
+		{
+			if (m_connec_gene[c].enabled == false
+				&& m_connec_gene[c].node_in == node_in
+				&& m_connec_gene[c].node_out == node_out)
+			{
+				m_connec_gene[c].enabled = true;
+				return ;
+			}
+		}
+		add_connection(node_in, node_out, true);
+	}
 }
 
 s_connection_gene&

@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 00:17:00 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/26 19:58:11 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/27 04:04:22 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ class	Snake: public Learning_environment_net
         void	set_food(bool);
 
 	private:
-		int		do_evalutation(People_net &people, int generation);
+		double	do_evalutation(People_net &people, int generation);
 		int		do_get_nb_output(void);
 		int		do_get_nb_input(void);
 
@@ -79,7 +79,7 @@ class	Snake: public Learning_environment_net
         bool			m_dead = false;
 		bool			m_bFood = false;
 		bool			m_bEat=false;
-		const int		m_extra_sensor = 2;
+		const int		m_extra_sensor = 0;
 		int				m_applePoint = 1;
 		int				m_apple_add_len = 2;
 };

@@ -6,13 +6,13 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 01:03:50 by trobicho          #+#    #+#             */
-/*   Updated: 2019/08/10 15:43:49 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/27 04:04:56 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Learning_environment.h"
 
-int	Learning_environment::evaluate(People &people, int generation)
+double	Learning_environment::evaluate(People &people, int generation)
 {
 	return (do_evalutation(people, generation));
 }

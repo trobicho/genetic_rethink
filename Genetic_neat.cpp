@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:27 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/26 19:56:54 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/27 04:43:20 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		Genetic_neat::do_get_generation(void)
 	return (m_generation);
 }
 
-int		Genetic_neat::do_get_best_score(void)
+double	Genetic_neat::do_get_best_score(void)
 {
 	return (m_people[0].get_score());
 }
@@ -334,11 +334,11 @@ void	Genetic_neat::mutate_one_people(People_neat &people)
 {
 	double	d = trl::rand_uniform_double(0, 1);
 
-	if (d < 0.95)
+	if (d < 0.94)
 	{
 		people.mutate_weight();
 	}
-	else if (d < 0.973)
+	else if (d < 0.963)
 		people.mutate_add_node();
 	else
 		people.mutate_add_connection();

@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 00:16:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/26 19:26:55 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/27 04:04:40 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int	Snake::eval_and_display(People_net &people, int generation)
 	return (m_score);
 }
 
-int	Snake::do_evalutation(People_net &people, int generation)
+double	Snake::do_evalutation(People_net &people, int generation)
 {
 	static int	last_gen = -1;
 
@@ -151,7 +151,7 @@ int	Snake::do_evalutation(People_net &people, int generation)
 	{
 		step(people);
 	}
-	return (m_score);
+	return ((double)m_score);
 }
 
 void Snake::step(People_net& people)

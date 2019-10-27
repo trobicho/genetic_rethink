@@ -6,7 +6,7 @@
 #    By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/10 14:28:55 by trobicho          #+#    #+#              #
-#    Updated: 2019/10/11 23:13:49 by trobicho         ###   ########.fr        #
+#    Updated: 2019/10/27 01:49:58 by trobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,16 +18,20 @@ SRCS_PATH	=	./
 HDRS_PATH	=	./
 OBJS_PATH	=	./obj
 
-INCS_FLAGS	=	-I../my_lib_cpp
+INCS_FLAGS	=	-I../my_lib_cpp -I./net_environment
 LIBS_FLAGS	=	-L../my_lib_cpp -ltrl
 
 SRCS_NAME	=	Genetic.cpp \
+				Genetic_neat.cpp \
 				People_net.cpp \
+				People_neat.cpp \
 				Learning_environment_net.cpp \
 
 HDRS_NAME	=	libgen.h \
 				Genetic.h \
+				Genetic_neat.h \
 				People_net.h \
+				People_neat.h \
 				Learning_environment_net.h \
 
 
@@ -37,36 +41,7 @@ SRCS = $(addprefix $(SRCS_PATH)/, $(SRCS_NAME))
 HDRS = $(addprefix $(HDRS_PATH)/, $(HDRS_NAME))
 OBJS = $(addprefix $(OBJS_PATH)/, $(OBJS_NAME))
 
-#********************************************#
-#                                            #
-#                  TEST                      #
-#                                            #
-#********************************************#
-
-TEST_NAME	=	test
-TEST_SRCS	=	main_test_simple.cpp \
-				Genetic_neat.cpp \
-				People_basic_mlp.cpp \
-				People_neat.cpp \
-				./net_environment/Snake_copy_test.cpp
-TEST_HDRS	=	Genetic_neat.h \
-				People_basic_mlp.h \
-				People_neat.h \
-				./net_environment/Snake_copy_test.h
-
-TEST_INCS_FLAGS	= $(INCS_FLAGS) -I./ -I../neuralNet -I./net_environment
-TEST_LIBS_FLAGS	= $(LIBS_FLAGS) -L../neuralNet -lneuralNet
-
 all: $(NAME)
-
-test: $(NAME) $(TEST_SRCS) Makefile
-	$(CC) $(CXXFLAGS) $(TEST_INCS_FLAGS) $(TEST_SRCS) $(NAME) -o $(TEST_NAME) $(TEST_LIBS_FLAGS)
-
-#********************************************#
-#                                            #
-#                TEST END                    #
-#                                            #
-#********************************************#
 
 $(NAME): logo $(OBJS) Makefile
 	ar src $(NAME) $(OBJS)
@@ -75,7 +50,7 @@ $(OBJS_PATH)/%.o: $(SRCS_PATH)/%.cpp $(HDRS) Makefile
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
 	@echo "\033[38;2;0;255;0m[cc]\033[0m: $< -> $@"
 	@printf "\e[1A"
-	@$(CC) $(CXXFLAGS) -I $(HDRS_PATH) -c $< -o $@
+	@$(CC) $(CXXFLAGS) $(INCS_FLAGS) -I $(HDRS_PATH) -c $< -o $@
 	@printf "\e[0K"
 
 clean:

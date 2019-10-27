@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:30 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/26 01:47:06 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/27 04:42:44 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ struct	s_species_var
 	double	c1 = 1.0;
 	double	c2 = 1.0;
 	double	c3 = 0.4;
-	double	delta_threshold = 3.0;
+	double	delta_threshold = 1.5;
 };
 
 struct	s_species
@@ -49,7 +49,7 @@ class	Genetic_neat: public Genetic
 
 	private:
 		int		do_get_generation(void);
-		int		do_get_best_score(void);
+		double	do_get_best_score(void);
 		void	do_next_gen(void);
 		void	create_species(void);
 		void	species_choose_representative(void);
