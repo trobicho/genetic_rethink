@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/29 21:56:46 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/30 12:39:29 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ People_neat::People_neat(int nb_input, int nb_output
 {
 	auto	&mt = trl::req_mt_ref();
 	std::uniform_real_distribution<double>
-			dis(-1, 1);
+			dis(-1.0, 1.0);
 
 	m_result.resize(nb_output);
 	m_node_gene.resize(nb_input + nb_output);
@@ -108,7 +108,7 @@ const vector<double>&
 					m_node_gene[out].nb_until_finish--;
 					m_connec_gene[c].done = true;
 					if (m_node_gene[out].nb_until_finish == 0)
-						m_node_gene[out].in = trl::sigmoid(m_node_gene[out].in);
+						m_node_gene[out].in = trl::logistic_steep(m_node_gene[out].in);
 
 				}
 				else
@@ -243,9 +243,8 @@ void	People_neat::mutate_weight_mul(void)
 void	People_neat::mutate_weight_add(void)
 {
 	int c = choose_rand_enabled_connec();
-	std::normal_distribution<> d{0.0, 1.};
 
-	m_connec_gene[c].weight += d(trl::req_mt_ref());
+	m_connec_gene[c].weight += trl::rand_uniform_double(-0.6, 0.6);
 }
 
 void	People_neat::mutate_weight_full_rand(void)
@@ -401,7 +400,7 @@ void	People_neat::mutate_add_connection(void)
 			}
 		}
 		add_connection(node_in, node_out, true);
-		m_connec_gene.back().weight = trl::rand_uniform_double(-0.5, 0.5);
+		m_connec_gene.back().weight = trl::rand_uniform_double(-1.0, 1.0);
 	}
 }
 

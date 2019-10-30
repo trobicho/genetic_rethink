@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 00:17:00 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/27 04:04:22 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/30 12:04:19 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,5 @@ class	Snake: public Learning_environment_net
 		const int		m_extra_sensor = 0;
 		int				m_applePoint = 1;
 		int				m_apple_add_len = 2;
+		bool			m_bias = true;
 };

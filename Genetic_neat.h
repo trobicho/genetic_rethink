@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:30 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/29 00:24:08 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/30 12:32:36 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ class	Genetic_neat: public Genetic
 
 		vector<People_neat>			m_people;
 		int							m_generation = 1;
-		double						m_mutate_prob = 0.5;
+		double						m_mutate_prob = 0.3;
 		Learning_environment_net	&m_env; //Temp have to be replace with a evaluator
 		size_t						m_cur_people_alive;
 		size_t						m_target_population;

@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 00:36:33 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/22 02:30:01 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/30 11:36:42 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ class	Snake: public Learning_environment_net
 		bool	fillViewTab();
         void	snake_init();
         void	sensor_update();
+		int		dist_to_wall();
         s_vec2i	rand_apple_one();
         void	rand_apple_vec();
         void	add_len(int l=1);

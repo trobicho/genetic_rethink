@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 00:16:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/28 21:43:08 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/30 10:56:16 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ void Snake::sensor_update()
 		if (m_extra_sensor > 1)
 			m_sensor[m_nbOutPerDir * m_nb_direction + 1] = m_snake.len / 300.0;
 	}
+	if (m_bias)
+		m_sensor.back() = 1.0;
 }
 
 int	Snake::eval_and_display(People_net &people, int generation)
@@ -304,5 +306,9 @@ int		Snake::do_get_nb_output(void)
 
 int		Snake::do_get_nb_input(void)
 {
-	return (m_nbOutPerDir * m_nb_direction + m_extra_sensor);
+	int	nb_in = m_nbOutPerDir * m_nb_direction + m_extra_sensor;
+
+	if (m_bias)
+		nb_in += 1;
+	return (nb_in);
 }
