@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 01:25:26 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/27 06:13:02 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/28 03:57:12 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ double	Xor::do_evalutation(People_net &people, int generation)
 			cur_total_fail++;
 			m_fail[i]++;
 		}
-		score += add;
+		score += add * add;
 	}
 	if (cur_total_fail == 0)
 		std::cout << "WHOOOOAAAA!!!!!" << std::endl;
-	return (4.0 - score);
+	return (1.0 - score / 4.0);
 }
 
 void	Xor::test()

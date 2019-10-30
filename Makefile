@@ -6,7 +6,7 @@
 #    By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/10 14:28:55 by trobicho          #+#    #+#              #
-#    Updated: 2019/10/27 01:49:58 by trobicho         ###   ########.fr        #
+#    Updated: 2019/10/28 00:46:06 by trobicho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS_NAME	=	Genetic.cpp \
 				Genetic_neat.cpp \
 				People_net.cpp \
 				People_neat.cpp \
+				People_neat_handler.cpp \
 				Learning_environment_net.cpp \
 
 HDRS_NAME	=	libgen.h \
@@ -32,6 +33,7 @@ HDRS_NAME	=	libgen.h \
 				Genetic_neat.h \
 				People_net.h \
 				People_neat.h \
+				People_neat_handler.h \
 				Learning_environment_net.h \
 
 

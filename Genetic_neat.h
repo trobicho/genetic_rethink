@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:30 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/27 06:03:44 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/29 00:24:08 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,16 @@ class	Genetic_neat: public Genetic
 		void	mutate_one_people(People_neat &people);
 		int		kill_one_people(int n);
 		int		sigma_kill(int n);
-		friend int		get_new_innov_number();
+		int		get_new_innov_number();
 
 		vector<People_neat>			m_people;
 		int							m_generation = 1;
-		double						m_mutate_prob = 0.8;
+		double						m_mutate_prob = 0.5;
 		Learning_environment_net	&m_env; //Temp have to be replace with a evaluator
 		size_t						m_cur_people_alive;
 		size_t						m_target_population;
 		s_species_var				m_species_var;
 		vector<s_species>			m_species;
 		double						m_total_species_fitness;
+		People_neat_handler			m_handler;
 };
-
-inline int		get_new_innov_number()
-{
-	static int	m_cur_innov_number = 1;
-	return (m_cur_innov_number++);
-}

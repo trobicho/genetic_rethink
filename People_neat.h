@@ -6,12 +6,13 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:55 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/27 03:57:24 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/29 21:56:27 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
+#include "People_neat_handler.h"
 #include "People_net.h"
 #include <vector>
 
@@ -44,27 +45,20 @@ struct	s_node_gene
 	}
 };
 
-struct	s_connection_gene
-{
-	int		node_in;
-	int		node_out;
-	double	weight;
-	bool	enabled;
-	int		innov;
-	bool	done;
-};
-
 using namespace std;
 
 class	People_neat: public People_net
 {
 	public:
-		People_neat(int nb_input, int nb_output, int (*get_new_innov)(void));
+		People_neat(int nb_input, int nb_output, People_neat_handler *handler);
 		void	copy_gene(People_neat &people);
-		void	mutate_weight(void);
+		void	mutate_weight_mul(void);
+		void	mutate_weight_add(void);
+		void	mutate_weight_full_rand(void);
 		void	mutate_add_node(void);
 		void	mutate_add_connection(void);
 		void	mating(People_neat &p1, People_neat &p2);
+		int		choose_rand_enabled_connec(void);
 
 		void	set_sharing_score(double sharing_score)
 			{m_sharing_score = sharing_score;}
@@ -101,6 +95,6 @@ class	People_neat: public People_net
 		double						m_score;
 		double						m_sharing_score;
 		size_t						m_nb_input, m_nb_output;
-		int							(*m_get_new_innov_number)(void);
 		int							m_species;
+		People_neat_handler			*m_handler;
 };

@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:14:27 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/27 04:43:20 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/29 21:22:37 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ Genetic_neat::
 	{
 		m_people.push_back(
 			People_neat(env.get_nb_input(), env.get_nb_output()
-				, &get_new_innov_number));
+				, &m_handler));
 	}
 	create_species();
 }
@@ -42,6 +42,7 @@ double	Genetic_neat::do_get_best_score(void)
 
 void	Genetic_neat::do_next_gen(void)
 {
+	m_handler.flush_innov();
 	if (m_generation > 1)
 	{
 		//apply_evolving_rules();
@@ -51,10 +52,13 @@ void	Genetic_neat::do_next_gen(void)
 	{
 		m_people[i].set_score(m_env.evaluate(m_people[i], m_generation));
 	}
-	std::sort(m_people.rbegin(), m_people.rend());
 	species_choose_representative();
+	std::sort(m_people.rbegin(), m_people.rend(), [&m_people = m_people]
+			(People_neat p1, People_neat p2) {return (p1.get_sharing_score() 
+			< p2.get_sharing_score());});
 	place_all_into_species();
 	species_calc_sharing_fitness();
+	std::sort(m_people.rbegin(), m_people.rend());
 	m_generation++;
 }
 
@@ -214,11 +218,14 @@ void	Genetic_neat::breed_all_species(void)
 			nb_breed += breed_one_species(m_species[s], nb_offspring);
 		}
 	}
+	int nb_error = 0;
 	while (nb_breed < m_target_population)
 	{
 		nb_breed += breed_one_species_round_error(
 			m_species[trl::rand_uniform_int(0, m_species.size() - 1)]);
+		nb_error++;
 	}
+	std::cout << "nb round error: " << nb_error << std::endl;
 }
 
 int		Genetic_neat::breed_one_species_round_error(s_species &species)
@@ -334,11 +341,16 @@ void	Genetic_neat::mutate_one_people(People_neat &people)
 {
 	double	d = trl::rand_uniform_double(0, 1);
 
-	if (d < 0.94)
+	if (d < 0.97)
 	{
-		people.mutate_weight();
+		if (d > 0.87)
+			people.mutate_weight_full_rand();
+		else if (d > 0.8)
+			people.mutate_weight_add();
+		else
+			people.mutate_weight_mul();
 	}
-	else if (d < 0.963)
+	else if (d < 0.985)
 		people.mutate_add_node();
 	else
 		people.mutate_add_connection();

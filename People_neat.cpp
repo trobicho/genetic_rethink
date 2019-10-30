@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/27 06:24:30 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/29 21:56:46 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 #include <iostream>
 
 People_neat::People_neat(int nb_input, int nb_output
-	, int (*get_new_innov)(void)): m_nb_input(nb_input), m_nb_output(nb_output)
-	, m_get_new_innov_number(get_new_innov)
+	, People_neat_handler *handler): m_nb_input(nb_input), m_nb_output(nb_output)
+	, m_handler(handler)
 {
 	auto	&mt = trl::req_mt_ref();
 	std::uniform_real_distribution<double>
@@ -108,7 +108,7 @@ const vector<double>&
 					m_node_gene[out].nb_until_finish--;
 					m_connec_gene[c].done = true;
 					if (m_node_gene[out].nb_until_finish == 0)
-						m_node_gene[out].in = trl::sigmoid(m_node_gene[out].in, 5.0);
+						m_node_gene[out].in = trl::sigmoid(m_node_gene[out].in);
 
 				}
 				else
@@ -191,7 +191,7 @@ void	People_neat::mating(People_neat &p1, People_neat &p2)
 	std::vector<s_connection_gene>::iterator	ic1;
 	std::vector<s_connection_gene>::iterator	ic2;
 
-	if (p2.get_score() > p1.get_score()) 
+	if (p2.get_sharing_score() > p1.get_sharing_score()) 
 	{
 		p1 = p2;
 		p2 = tmp;
@@ -232,46 +232,73 @@ void	People_neat::mating(People_neat &p1, People_neat &p2)
 	//std::cout << std::endl << "=================" << std::endl;
 }
 
-void	People_neat::mutate_weight(void)
+void	People_neat::mutate_weight_mul(void)
 {
-	int	index = trl::rand_uniform_int(0, m_connec_gene.size() - 1);
+	int c = choose_rand_enabled_connec();
+	std::normal_distribution<> d{0.0, 1.};
 
-	m_connec_gene[index].weight += trl::rand_uniform_double(-0.3, 0.3);
+	m_connec_gene[c].weight *= d(trl::req_mt_ref());
+}
+
+void	People_neat::mutate_weight_add(void)
+{
+	int c = choose_rand_enabled_connec();
+	std::normal_distribution<> d{0.0, 1.};
+
+	m_connec_gene[c].weight += d(trl::req_mt_ref());
+}
+
+void	People_neat::mutate_weight_full_rand(void)
+{
+	int c = choose_rand_enabled_connec();
+
+	m_connec_gene[c].weight = trl::rand_uniform_double(-1.0, 1.0);
 }
 
 void	People_neat::mutate_add_node(void)
 {
-	int		r;
 	auto	&mt = trl::req_mt_ref();
-	std::uniform_int_distribution<int>
-		dis(0, m_connec_gene.size() - 1); // -1 ?
+	int		c = choose_rand_enabled_connec();
 
-	for (int i = 0; i < 10; i++)
-	{
-		r = dis(mt);
-		if (m_connec_gene[r].enabled)
-			break;
-	}
-	if (m_connec_gene[r].enabled)
+	if (m_connec_gene[c].enabled)
 	{
 		s_node_gene			node;
 		s_connection_gene	connec;
-		/*
-		node.layer = m_node_gene[m_connec_gene[r].node_in].layer + 1;
-		if (m_node_gene[m_connec_gene[r].node_out].layer
-			> m_node_gene[m_connec_gene[r].node_in].layer)
-			node.layer = m_node_gene[m_connec_gene[r].node_out].layer - 1;
-		*/
+
 		node.layer = 1;
-		node.rank = m_node_gene[m_connec_gene[r].node_in].rank + 1;
+		node.rank = m_node_gene[m_connec_gene[c].node_in].rank + 1;
 		m_node_gene.push_back(node);
 		node_rerank(m_node_gene.size() - 1);
-		add_connection(m_connec_gene[r].node_in, m_node_gene.size() - 1, true);
-		m_connec_gene.back().weight = m_connec_gene[r].weight;
-		add_connection(m_connec_gene.back().node_out, m_connec_gene[r].node_out, true);
-		m_connec_gene[r].enabled = false;
+		add_connection(m_connec_gene[c].node_in, m_node_gene.size() - 1, true);
+		add_connection(m_connec_gene.back().node_out
+			, m_connec_gene[c].node_out, true);
+		m_connec_gene.back().weight = m_connec_gene[c].weight;
+		connec.enabled = false;
 		node_sort();
 	}
+}
+
+int		People_neat::choose_rand_enabled_connec(void)
+{
+	int	index;
+	int	nb_disabled = 0;
+
+	for (auto it = m_connec_gene.begin(); it != m_connec_gene.end(); ++it)
+	{
+		if (it->enabled == false)
+			nb_disabled++;
+	}
+	index = trl::rand_uniform_int(0, (m_connec_gene.size() - nb_disabled) - 1);
+	for (auto it = m_connec_gene.begin(); it != m_connec_gene.end(); ++it)
+	{
+		if (it->enabled == false)
+			++index;
+		else if (it == m_connec_gene.begin() + index)
+			break;
+	}
+	if (index >= m_connec_gene.size())
+		std::cout << "BUG choose" << std::endl;
+	return (index);
 }
 
 /*
@@ -374,6 +401,7 @@ void	People_neat::mutate_add_connection(void)
 			}
 		}
 		add_connection(node_in, node_out, true);
+		m_connec_gene.back().weight = trl::rand_uniform_double(-0.5, 0.5);
 	}
 }
 
@@ -392,7 +420,8 @@ s_connection_gene&
 		node_rerank(node_out);
 	}
 	m_connec_gene.back().weight = 1.0;
-	m_connec_gene.back().innov = m_get_new_innov_number();
+	m_connec_gene.back().innov =
+		m_handler->set_new_innov_number(m_connec_gene.back());
 	return (m_connec_gene.back());
 }
 
