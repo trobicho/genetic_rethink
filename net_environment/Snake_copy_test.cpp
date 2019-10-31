@@ -6,7 +6,7 @@
 /*   By: trobicho <trobicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 00:16:58 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/30 10:56:16 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/31 15:01:33 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,15 @@ void Snake::sensor_update()
     }
 	if (m_extra_sensor)
 	{
-		if (m_bFood)
-			m_sensor[m_nbOutPerDir * m_nb_direction] = 
-				(m_starving + m_snake.len - m_moveNoEat) / (double)m_starving;
-		else
-			m_sensor[m_nbOutPerDir * m_nb_direction] = 0.0;
+		m_sensor[m_nbOutPerDir * m_nb_direction] = m_snake.len / 300.0;
 		if (m_extra_sensor > 1)
-			m_sensor[m_nbOutPerDir * m_nb_direction + 1] = m_snake.len / 300.0;
+		{
+			if (m_bFood)
+				m_sensor[m_nbOutPerDir * m_nb_direction + 1] = 
+					(m_starving + m_snake.len - m_moveNoEat) / (double)m_starving;
+			else
+				m_sensor[m_nbOutPerDir * m_nb_direction + 1] = 0.0;
+		}
 	}
 	if (m_bias)
 		m_sensor.back() = 1.0;

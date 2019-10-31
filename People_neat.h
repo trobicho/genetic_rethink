@@ -6,7 +6,7 @@
 /*   By: trobicho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 13:25:55 by trobicho          #+#    #+#             */
-/*   Updated: 2019/10/30 12:54:56 by trobicho         ###   ########.fr       */
+/*   Updated: 2019/10/31 12:16:44 by trobicho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ using namespace std;
 class	People_neat: public People_net
 {
 	public:
+		People_neat(){};
 		People_neat(int nb_input, int nb_output, People_neat_handler *handler);
 		void	copy_gene(People_neat &people);
 		void	mutate_weight_mul(void);
